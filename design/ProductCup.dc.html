@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap">
+  <style>
+    body { margin: 0; direction: rtl; text-align: right; background: #FAF8F5;
+           font-family: Vazirmatn, Tahoma, 'Segoe UI', sans-serif; color: #14181D;
+           line-height: 1.8; -webkit-font-smoothing: antialiased; }
+    a { color: #0A8592; text-decoration: none; } a:hover { color: #14181D; }
+    h1, h2, h3 { margin: 0; line-height: 1.5; font-weight: 700; }
+    p { margin: 0; }
+  </style>
+</helmet>
+
+<div dir="rtl" style="width: 390px; background: #FAF8F5; overflow: hidden;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid #E6E2DC;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14181D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg>
+    <div style="font-size: 14.5px; font-weight: 700;">لیوان کاغذی بیرون‌بر</div>
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#14181D" stroke-width="1.7" stroke-linecap="round">
+      <path d="M6 7h14l-1.4 8.5a2 2 0 0 1-2 1.7H9.3a2 2 0 0 1-2-1.6L5.4 4.6A1 1 0 0 0 4.4 4H3"></path>
+      <circle cx="9.5" cy="20" r="1.2" fill="#14181D" stroke="none"></circle><circle cx="17.5" cy="20" r="1.2" fill="#14181D" stroke="none"></circle>
+    </svg>
+  </div>
+
+  <div style="background: #EDE3D6; height: 320px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 26px; position: relative;">
+    <div style="position: absolute; top: 18px; right: 20px; background: #14181D; color: #FAF8F5; font-size: 11.5px; font-weight: 700; border-radius: 100px; padding: 5px 12px;">پرفروش</div>
+    <svg width="150" height="205" viewBox="0 0 60 82" fill="none">
+      <path d="M13 22 h34 l-4.5 50 a5 5 0 0 1 -5 4.5 h-15 a5 5 0 0 1 -5 -4.5 Z" fill="#FAF8F5" stroke="#14181D" stroke-width="1.5"></path>
+      <path d="M9.5 12.5 h41 v7 a2.5 2.5 0 0 1 -2.5 2.5 h-36 a2.5 2.5 0 0 1 -2.5 -2.5 Z" fill="#35CEDC" stroke="#14181D" stroke-width="1.5"></path>
+      <path d="M17.5 40 h25" stroke="#D9C4A9" stroke-width="4.5" stroke-linecap="round"></path>
+      <path d="M19 50 h21" stroke="#D9C4A9" stroke-width="2.5" stroke-linecap="round"></path>
+    </svg>
+    <div style="position: absolute; bottom: 16px; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 6px;">
+      <span style="width: 18px; height: 4px; border-radius: 100px; background: #14181D; display: block;"></span>
+      <span style="width: 4px; height: 4px; border-radius: 100px; background: #B4AFA6; display: block;"></span>
+      <span style="width: 4px; height: 4px; border-radius: 100px; background: #B4AFA6; display: block;"></span>
+      <span style="width: 4px; height: 4px; border-radius: 100px; background: #B4AFA6; display: block;"></span>
+    </div>
+  </div>
+
+  <div style="padding: 24px 20px 0;">
+    <h1 style="font-size: 24px; font-weight: 900; line-height: 1.5;">لیوان کاغذی کرافت — بیرون‌بر</h1>
+    <p style="font-size: 13.5px; color: #7A828A; margin-top: 8px; line-height: 1.9;">
+      دوجداره، مناسب نوشیدنی داغ، با درب فشاری — تولید کیاپک
+    </p>
+  </div>
+
+  <div style="padding: 22px 20px 0;">
+    <div style="font-size: 13.5px; font-weight: 700; margin-bottom: 11px;">حجم</div>
+    <div style="display: flex; gap: 9px;">
+      <sc-for list="{{sizes}}" as="size" hint-placeholder-count="3">
+        <div onClick="{{size.pick}}" style="{{size.chipStyle}}">{{size.label}}</div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="padding: 26px 20px 0;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 5px;">
+      <div style="font-size: 15px; font-weight: 900;">تعداد را انتخاب کنید</div>
+    </div>
+    <p style="font-size: 12.5px; color: #7A828A; line-height: 1.85; margin-bottom: 14px;">
+      هرچه تعداد بیشتر، قیمت هر عدد کمتر. حداقل سفارش ۵۰ عدد است.
+    </p>
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <sc-for list="{{tiers}}" as="tier" hint-placeholder-count="4">
+        <div onClick="{{tier.pick}}" style="{{tier.cardStyle}}">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="{{tier.radioStyle}}">
+              <sc-if value="{{tier.selected}}" hint-placeholder-val="{{true}}">
+                <span style="width: 9px; height: 9px; border-radius: 50%; background: #14181D; display: block;"></span>
+              </sc-if>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="font-size: 16px; font-weight: 900;">{{tier.qtyLabel}}</div>
+              <div style="font-size: 11.5px; color: #7A828A;">{{tier.note}}</div>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px;">
+            <div style="display: flex; align-items: baseline; gap: 4px;">
+              <span style="font-size: 16px; font-weight: 900;">{{tier.unitLabel}}</span>
+              <span style="font-size: 10.5px; color: #7A828A;">ت/عدد</span>
+            </div>
+            <div style="{{tier.badgeStyle}}">{{tier.savingLabel}}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="margin: 22px 20px 0; background: #14181D; border-radius: 14px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <span style="font-size: 13px; color: #A8AEB4;">قیمت هر عدد</span>
+      <span style="font-size: 14.5px; font-weight: 700; color: #FAF8F5;">{{unitPrice}} تومان</span>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <span style="font-size: 13px; color: #A8AEB4;">تعداد</span>
+      <span style="font-size: 14.5px; font-weight: 700; color: #FAF8F5;">{{qtyLabel}}</span>
+    </div>
+    <div style="height: 1px; background: #2A3138;"></div>
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+      <span style="font-size: 14px; font-weight: 700; color: #FAF8F5;">مبلغ کل</span>
+      <div style="display: flex; align-items: baseline; gap: 5px;">
+        <span style="font-size: 23px; font-weight: 900; color: #35CEDC;">{{totalPrice}}</span>
+        <span style="font-size: 12px; color: #A8AEB4;">تومان</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 26px 20px 0;">
+    <div style="font-size: 15px; font-weight: 900; margin-bottom: 12px;">مشخصات</div>
+    <div style="display: flex; flex-direction: column; border: 1px solid #E6E2DC; border-radius: 12px; overflow: hidden;">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; border-bottom: 1px solid #E6E2DC;">
+        <span style="font-size: 13px; color: #7A828A;">جنس</span>
+        <span style="font-size: 13px; font-weight: 500;">کاغذ کرافت دوجداره</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; border-bottom: 1px solid #E6E2DC;">
+        <span style="font-size: 13px; color: #7A828A;">گراماژ</span>
+        <span style="font-size: 13px; font-weight: 500;">۲۸۰ گرم</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; border-bottom: 1px solid #E6E2DC;">
+        <span style="font-size: 13px; color: #7A828A;">ابعاد</span>
+        <span style="font-size: 13px; font-weight: 500;">{{dims}}</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; border-bottom: 1px solid #E6E2DC;">
+        <span style="font-size: 13px; color: #7A828A;">درب</span>
+        <span style="font-size: 13px; font-weight: 500;">فشاری، جداگانه</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 13px 16px;">
+        <span style="font-size: 13px; color: #7A828A;">بهداشت</span>
+        <span style="font-size: 13px; font-weight: 500;">مناسب تماس با مواد غذایی</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 12px; margin: 20px 20px 0; padding: 15px 16px; background: #EDE3D6; border-radius: 12px;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0A8592" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M4 20V7.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V20"></path><path d="M4 20h16"></path><path d="M9 11h6M9 15h4"></path></svg>
+    <div style="flex-grow: 1;">
+      <div style="font-size: 13.5px; font-weight: 700;">با لوگوی خودتان می‌خواهید؟</div>
+      <div style="font-size: 11.5px; color: #6B6255; margin-top: 2px;">چاپ اختصاصی از ۱٬۰۰۰ عدد</div>
+    </div>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#14181D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M14 6l-6 6 6 6"></path></svg>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 9px; padding: 18px 20px 0; font-size: 12.5px; color: #7A828A;">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0A8592" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h11v9h-11Z"></path><path d="M13.5 11h4l3 3v2.5h-7Z"></path><circle cx="6.5" cy="18" r="1.8"></circle><circle cx="16.5" cy="18" r="1.8"></circle></svg>
+    ارسال ۳ تا ۵ روز کاری — پست پیشتاز و تیپاکس
+  </div>
+
+  <div style="height: 26px;"></div>
+
+  <div style="border-top: 1px solid #E6E2DC; background: #FAF8F5; padding: 14px 20px 18px; display: flex; align-items: center; gap: 14px;">
+    <div style="display: flex; flex-direction: column; gap: 1px; flex-shrink: 0;">
+      <span style="font-size: 11px; color: #7A828A;">مبلغ کل</span>
+      <div style="display: flex; align-items: baseline; gap: 4px;">
+        <span style="font-size: 18px; font-weight: 900;">{{totalPrice}}</span>
+        <span style="font-size: 11px; color: #7A828A;">تومان</span>
+      </div>
+    </div>
+    <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 8px; background: #35CEDC; color: #14181D; font-size: 15.5px; font-weight: 700; padding: 15px; border-radius: 10px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#14181D" stroke-width="2" stroke-linecap="round">
+        <path d="M6 7h14l-1.4 8.5a2 2 0 0 1-2 1.7H9.3a2 2 0 0 1-2-1.6L5.4 4.6A1 1 0 0 0 4.4 4H3"></path>
+        <circle cx="9.5" cy="20" r="1.2" fill="#14181D" stroke="none"></circle><circle cx="17.5" cy="20" r="1.2" fill="#14181D" stroke="none"></circle>
+      </svg>
+      افزودن به سبد خرید
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":390,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { size: 8, qty: 100 };
+  }
+
+  fa(n) {
+    const digits = '۰۱۲۳۴۵۶۷۸۹';
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '٬')
+                    .replace(/[0-9]/g, (d) => digits[Number(d)]);
+  }
+
+  renderVals() {
+    const qtys = [50, 100, 250, 500];
+    const notes = ['شروع خرید', 'مغازهٔ کوچک', 'کافهٔ کوچک', 'بهترین قیمت'];
+    const sizeData = {
+      4:  { prices: [3400, 3150, 2800, 2500], dims: '۷ × ۸ سانتی‌متر' },
+      8:  { prices: [4200, 3900, 3450, 3100], dims: '۸ × ۱۱ سانتی‌متر' },
+      12: { prices: [5100, 4750, 4200, 3800], dims: '۹ × ۱۳ سانتی‌متر' }
+    };
+    const size = this.state.size;
+    const prices = sizeData[size].prices;
+    const base = prices[0];
+    const idx = qtys.indexOf(this.state.qty);
+    const unit = prices[idx < 0 ? 1 : idx];
+    const qty = this.state.qty;
+
+    const tiers = qtys.map((q, i) => {
+      const selected = q === qty;
+      const saving = Math.round((1 - prices[i] / base) * 100);
+      return {
+        qtyLabel: this.fa(q) + ' عدد',
+        note: notes[i],
+        unitLabel: this.fa(prices[i]),
+        selected: selected,
+        savingLabel: saving > 0 ? (this.fa(saving) + '٪ ارزان‌تر') : 'قیمت پایه',
+        badgeStyle: saving > 0
+          ? 'font-size: 10.5px; font-weight: 700; color: #0A8592; background: #DFF4F6; border-radius: 100px; padding: 2px 8px;'
+          : 'font-size: 10.5px; color: #9BA2A9; padding: 2px 0;',
+        radioStyle: 'width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 2px solid '
+          + (selected ? '#14181D' : '#CFCAC2') + ';',
+        cardStyle: 'display: flex; align-items: center; justify-content: space-between; padding: 15px 16px; border-radius: 12px; cursor: pointer; min-height: 44px; '
+          + (selected
+              ? 'border: 2px solid #14181D; background: #FFFFFF;'
+              : 'border: 1px solid #E6E2DC; background: #FAF8F5;'),
+        pick: () => this.setState({ qty: q })
+      };
+    });
+
+    const sizes = [4, 8, 12].map((s) => ({
+      label: this.fa(s) + ' اونس',
+      pick: () => this.setState({ size: s }),
+      chipStyle: 'display: flex; align-items: center; justify-content: center; min-width: 88px; min-height: 44px; padding: 10px 18px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; '
+        + (s === size
+            ? 'background: #14181D; color: #FAF8F5; border: 2px solid #14181D;'
+            : 'background: #FAF8F5; color: #14181D; border: 1px solid #CFCAC2;')
+    }));
+
+    return {
+      tiers: tiers,
+      sizes: sizes,
+      unitPrice: this.fa(unit),
+      qtyLabel: this.fa(qty) + ' عدد',
+      totalPrice: this.fa(unit * qty),
+      dims: sizeData[size].dims
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -116,7 +116,7 @@ const footer = (active) => `
         </div>
       </div>
       <div>
-        <h4>محصولات</h4>
+        <h2>محصولات</h2>
         <ul>
           <li><a href="products.html#auto">جعبه خودرویی</a></li>
           <li><a href="products.html#industrial">جعبه صنعتی</a></li>
@@ -125,7 +125,7 @@ const footer = (active) => `
         </ul>
       </div>
       <div>
-        <h4>خدمات</h4>
+        <h2>خدمات</h2>
         <ul>
           <li><a href="products.html#services">ساخت و طراحی قالب</a></li>
           <li><a href="products.html#services">ساخت ماکت</a></li>
@@ -134,7 +134,7 @@ const footer = (active) => `
         </ul>
       </div>
       <div>
-        <h4>تماس با ما</h4>
+        <h2>تماس با ما</h2>
         <ul>
           <li class="row">${ICON.phone}<a href="${TEL}">${PHONE}</a></li>
           <li class="row">${ICON.globe}<a href="https://kiapackco.com">Kiapackco.com</a></li>
@@ -519,7 +519,7 @@ pages['about.html'] = {
     <div class="split">
       <div class="c">
         <div class="eyebrow">درباره ما</div>
-        <h2 style="font-size:31px">بیش از دو دهه، پشت خط تولید</h2>
+        <h1 style="font-size:31px">بیش از دو دهه، پشت خط تولید</h1>
         <p style="font-size:15.5px;color:var(--ink-soft);margin-top:16px;line-height:2.2">
           کارخانه چاپ و بسته‌بندی کیاپک، با بیش از دو دهه تجربه در زمینه چاپ و تولید انواع بسته‌بندی،
           با بهره‌گیری از ماشین‌آلات پیشرفته و نیروی انسانی متخصص، همواره در جهت ارائه محصولاتی با

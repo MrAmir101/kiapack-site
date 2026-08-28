@@ -97,7 +97,7 @@ svg { flex-shrink: 0; }
 }
 
 /* The KiaPack wordmark: heavy, slanted, gold — as it appears on their profile */
-.brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; min-height: 44px; }
 .brand .mark {
   font-size: 25px; font-weight: 900; color: var(--gold);
   font-style: italic; letter-spacing: -0.03em; line-height: 1;
@@ -502,7 +502,7 @@ svg { flex-shrink: 0; }
 
 .site-footer { background: var(--navy-950); color: #8B99B4; padding-top: 40px; }
 .site-footer .cols { display: flex; flex-direction: column; gap: 28px; }
-.site-footer h4 { font-size: 14.5px; font-weight: 800; color: #fff; margin-bottom: 13px; }
+.site-footer h2 { font-size: 14.5px; font-weight: 800; color: #fff; margin-bottom: 13px; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
 .site-footer li, .site-footer .row { font-size: 13.5px; color: #8B99B4; }
 .site-footer a { color: #8B99B4; }

@@ -17,12 +17,43 @@ Shams Abad industrial estate, founded in ۱۳۷۸.
 
 | File | What it is |
 |---|---|
-| `index.html` | Home — positioning, the eight product families, machinery, services, clients, FAQ |
-| `products.html` | The eight box families, equipment list, services, buying guide |
-| `shop.html` | Proposed low-volume retail line — ready-made stock from ۵۰ عدد |
+| `index.html` | Home — positioning, the eight product families, the fold animation, the ply explorer, machinery, clients, FAQ |
+| `products.html` | The eight box families, equipment list, services, ply explorer, buying guide |
+| `shop.html` | Low-volume retail line — ready-made stock from ۵۰ عدد, each card adds to the cart |
 | `product.html` | Product detail with a **working configurator** — size, finish and quantity drive a live drawing and live pricing |
-| `about.html` | درباره ما — company record, registration details, clients |
+| `cart.html` | Working cart — line items, quantity stepping, removal, free-shipping meter |
+| `about.html` | درباره ما — company record, timeline, registration details, clients |
 | `custom.html` | استعلام قیمت — the quote request and how an order runs |
+| `login.html` | Phone + four-digit code, two-step |
+| `signup.html` | Company or individual account |
+| `404.html` | Not-found page |
+
+## What moves, and why
+
+Motion is not decoration here; each piece answers a question a buyer has.
+All of it is behind `prefers-reduced-motion`, which yields a static, fully legible page.
+
+- **The fold** (home) — a flat sheet interpolates into a closed box as you scroll past.
+  Three faces, four points each, eased from net to isometric. It answers "what do you
+  actually make" faster than a paragraph.
+- **The ply explorer** (home, products) — drag to wipe between a three-ply and a five-ply
+  cross-section. This is the single most common question a carton buyer has, made
+  answerable in one gesture. Keyboard accessible via arrow keys.
+- **The configurator** (product) — size, finish and quantity drive a live isometric
+  drawing and live pricing; drag the stage to turn the box.
+- Supporting motion: gold scroll-progress seam, staggered reveals, counters,
+  hero parallax, a conveyor of the product families, button sheen, card lift.
+
+## Quality checks that run against the built pages
+
+- Every page: exactly one `h1`, no skipped heading levels
+- Every image carries `alt`; every icon-only control carries `aria-label`
+- No horizontal overflow at 320 / 375 / 768 / 1440
+- Tap targets ≥ 44px outside dense secondary rows
+- Focus rings on every interactive element
+- `prefers-reduced-motion` disables all animation
+- Cart maths verified: 250 × ۱۹٬۹۰۰ = ۴٬۹۷۵٬۰۰۰, free-shipping threshold flips correctly
+- Print stylesheet strips chrome and inverts the dark bands
 
 ## Design decisions
 
@@ -71,8 +102,11 @@ The design system is finished; these are content gaps only:
 2. **Real photography** — the factory, the production line, and finished boxes per family.
    This is the single biggest gap: `tarheaval.com`, the reference the client rated highest,
    is strong mainly because every product is a real photograph.
-3. **Client logo files** — five clients are named; their logos are shown as text cards.
+3. **Klarioba's logo** — the other four client logos are in place; no file was found for
+   گروه صنعتی کلاریوبا, so it renders as a text plate.
 4. **Real prices** for the retail line, if that line goes ahead.
+5. **A backend.** The cart lives in `localStorage` and the forms do not submit anywhere.
+   Login and signup are the real flow (phone, then a four-digit code) but no code is sent.
 
 ## Running it
 
@@ -88,16 +122,23 @@ the shared header and footer live there, so they never drift apart.
 ## Structure
 
 ```
-build.mjs           page builder — shared chrome + per-page bodies
-index.html  products.html  shop.html  product.html  about.html  custom.html
+build.mjs           page builder — shared chrome, meta, sitemap, robots
+pages-extra.mjs     the creative sections and the auth/cart page bodies
+*.html              10 generated pages — never edit these by hand
 assets/
   style.css         the design system
-  app.js            mobile nav, chips, scroll reveal, product configurator
+  motion.css        the motion layer, all of it reduced-motion aware
+  app.js            nav, reveals, counters, parallax, fold, ply, cart, auth, configurator
+  favicon.svg
   img/              stock photography (placeholder)
+  img/clients/      real client logos
 docs/
   company-facts.md   verified facts from the company profile
   reference-audit.md what the five competitor sites do
+sitemap.xml  robots.txt  404.html
 ```
+
+Pages are generated. Edit `build.mjs` or `pages-extra.mjs` and re-run `node build.mjs`.
 
 ---
 

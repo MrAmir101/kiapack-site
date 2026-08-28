@@ -198,7 +198,7 @@ export const LOGIN_BODY = `
         </div>
 
         <div data-step="2" class="hide">
-          <h1>کد تأیید</h1>
+          <h2 style="font-size:27px">کد تأیید</h2>
           <p class="sub">کد چهار رقمی پیامک‌شده به <b data-phone-echo>—</b> را وارد کنید.</p>
           <form onsubmit="return false">
             <div class="otp" data-otp>

@@ -39,30 +39,41 @@ reseller. It's interactive — try it.
 
 ## Design decisions
 
-**The brand was split in two, and the site resolves it structurally.** Kiapack's logo is a cool
-cyan geometric diamond; their saffron packaging is warm gold, crimson and dense Persian ornament.
-Rather than pick one:
+**The art direction is taken from the logo, not invented.** The Kiapack mark is a
+black diamond with a **perforated edge** — a die-cut carton reference — holding two
+angular chevron strokes, one white and one azure. Colours were sampled straight out
+of the logo file rather than chosen:
 
-- The **interface** (nav, buttons, type, layout) follows the logo — clean, modern, cyan `#35CEDC`
-- The **product world** (photography, the saffron page) keeps its gold `#C9A227` and crimson
-  `#B4232A`, contained inside image frames and the saffron section
+| | | |
+|---|---|---|
+| Azure | `#24B4E4` | sampled from the mark; the single accent |
+| Near-black | `#090C0A` | sampled; the dominant ground |
+| White | `#FFFFFF` | page surface |
+| Cool grey | `#F4F8FA` | secondary surface |
+| Saffron gold | `#C9A227` | reserved for the saffron/export pages only |
 
-The interface is the neutral gallery; the packaging is what hangs on the wall.
+Three motifs carry that identity through the site:
 
-**RTL is native, not flipped.** Layout, navigation, breadcrumbs, form fields and cards are authored
-right-to-left. Persian digits (۱۲۳) and Toman throughout. Type is Vazirmatn at 1.9 line-height —
-Persian needs more vertical room than Latin.
+1. **The perforation.** Sections are separated by a die-cut edge — the same
+   stamp-like perforation that outlines the logo.
+2. **The 45° chamfer.** Cards, buttons and swatches have two opposite corners
+   sliced at 45°, echoing the diamond. Nothing on the site has a rounded corner.
+3. **Dark-forward.** The hero, the price ladder, the footer and the tab bar are
+   near-black with azure chevron beams, the way the logo lockup sits on black.
 
-**Palette**
+An earlier draft used a warm kraft-and-turquoise palette. It was wrong: it fought
+the cool, angular, high-contrast mark the company already owns. Warm tones now
+appear only inside product artwork, where the material actually is brown card.
 
-| | |
-|---|---|
-| Cyan (UI, CTA) | `#35CEDC` |
-| Ink | `#14181D` |
-| Paper | `#FAF8F5` |
-| Kraft | `#D9C4A9` |
-| Saffron gold | `#C9A227` |
-| Saffron crimson | `#B4232A` |
+**RTL is native, not flipped.** Layout, navigation, breadcrumbs, form fields and
+cards are authored right-to-left. Persian digits (۱۲۳) and Toman throughout. Type
+is Vazirmatn at 1.9 line-height — Persian needs more vertical room than Latin.
+
+**The configurator is the differentiator.** Five competitor sites were reviewed
+(see `docs/reference-audit.md`); all five are catalogues where you read a price and
+phone someone. Here the visitor picks a size, a finish and a quantity, and the unit
+price, the saving, the total and the drawing of the cup all update live. That is the
+argument for buying from a factory, made tangible instead of written in a paragraph.
 
 ## What is real and what is not
 

@@ -12,8 +12,8 @@
   --white: #FFFFFF;
   --kraft: #D9C4A9;
   --kraft-light: #EDE3D6;
-  --cyan: #24B4E4;
-  --cyan-deep: #0C7FA8;
+  --cyan: #35CEDC;
+  --cyan-deep: #0A8592;
   --cyan-wash: #DFF4F6;
   --gold: #C9A227;
   --crimson: #B4232A;
@@ -129,7 +129,7 @@ button { font: inherit; }
   min-height: 48px; text-align: center;
 }
 .btn-primary { background: var(--cyan); color: var(--ink); }
-.btn-primary:hover { background: #109BCB; color: var(--ink); }
+.btn-primary:hover { background: #21BCCB; color: var(--ink); }
 .btn-dark { background: var(--ink); color: var(--paper); }
 .btn-dark:hover { background: #000; color: var(--paper); }
 .btn-gold { background: var(--gold); color: var(--ink); }

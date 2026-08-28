@@ -1,7 +1,7 @@
 /* Builds the static pages from one set of shared chrome + per-page bodies.
    Run:  node build.mjs                                                     */
 import fs from 'fs';
-import { FOLD_SECTION, PLY_SECTION, CONVEYOR, TIMELINE, LOGIN_BODY, SIGNUP_BODY } from './pages-extra.mjs';
+import { FOLD_SECTION, PLY_SECTION, CONVEYOR, TIMELINE, LOGIN_BODY, SIGNUP_BODY, CART_BODY } from './pages-extra.mjs';
 
 const PHONE = '۰۲۱-۵۶۹۰۱۳۱۷';
 const TEL = 'tel:+982156901317';
@@ -92,7 +92,7 @@ const header = (active) => `
       ${NAV.map(([h, t, k]) => `<a href="${h}"${k === active ? ' class="on"' : ''}>${t}</a>`).join('\n      ')}
     </nav>
     <div class="tools">
-      <a class="icon-btn" href="shop.html" aria-label="سبد خرید">${ICON.cart}<span class="cart-n">۰</span></a>
+      <a class="icon-btn" href="cart.html" aria-label="سبد خرید">${ICON.cart}<span class="cart-n">۰</span></a>
       <button class="icon-btn burger" type="button" data-burger aria-expanded="false" aria-label="منو">${ICON.burger}</button>
     </div>
   </div>
@@ -164,7 +164,7 @@ const footer = (active) => `
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1Z"/></svg>خانه</a>
   <a href="products.html"${active === 'products' ? ' class="on"' : ''}>
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7"/><rect x="13.5" y="3.5" width="7" height="7"/><rect x="3.5" y="13.5" width="7" height="7"/><rect x="13.5" y="13.5" width="7" height="7"/></svg>محصولات</a>
-  <a href="shop.html"${active === 'shop' || active === 'product' ? ' class="on"' : ''}>
+  <a href="cart.html"${active === 'cart' ? ' class="on"' : ''}>
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 7h14l-1.4 8.5a2 2 0 0 1-2 1.7H9.3a2 2 0 0 1-2-1.6L5.4 4.6A1 1 0 0 0 4.4 4H3"/><circle cx="9.5" cy="20" r="1.2" fill="currentColor" stroke="none"/><circle cx="17.5" cy="20" r="1.2" fill="currentColor" stroke="none"/></svg>فروشگاه</a>
   <a href="custom.html"${active === 'custom' ? ' class="on"' : ''}>
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V7.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V20"/><path d="M4 20h16M9 11h6M9 15h4"/></svg>استعلام</a>
@@ -701,12 +701,12 @@ pages['custom.html'] = {
 /* ---------- retail shop + product ---------------------------------------- */
 
 const SHOP = [
-  ['کارتن پستی سه‌لایه', 'کد ۱۰۱ — ۳۰×۲۰×۱۵', '۱۸٬۹۰۰', 'boxes-labelled.jpg', 'پرفروش'],
-  ['کارتن پستی کوچک', 'کد ۱۰۲ — ۲۰×۱۵×۱۰', '۱۲٬۴۰۰', 'box-detail.jpg', ''],
-  ['جعبه لمینتی ویترینی', 'کد ۲۰۱ — ۲۵×۱۸×۸', '۳۴٬۰۰۰', 'giftbox.jpg', ''],
-  ['گیفت باکس مربع', 'کد ۲۰۲ — ۱۵×۱۵×۷', '۲۸٬۵۰۰', '', ''],
-  ['جعبه دایکاتی کشویی', 'کد ۲۰۳ — ۲۰×۱۲×۶', '۳۱٬۰۰۰', '', ''],
-  ['کارتن پنج‌لایه بزرگ', 'کد ۱۰۳ — ۵۰×۴۰×۳۰', '۴۶٬۰۰۰', '', ''],
+  ['کارتن پستی سه‌لایه', 'کد ۱۰۱ — ۳۰×۲۰×۱۵', '۱۸٬۹۰۰', 'boxes-labelled.jpg', 'پرفروش', 18900],
+  ['کارتن پستی کوچک', 'کد ۱۰۲ — ۲۰×۱۵×۱۰', '۱۲٬۴۰۰', 'box-detail.jpg', '', 12400],
+  ['جعبه لمینتی ویترینی', 'کد ۲۰۱ — ۲۵×۱۸×۸', '۳۴٬۰۰۰', 'giftbox.jpg', '', 34000],
+  ['گیفت باکس مربع', 'کد ۲۰۲ — ۱۵×۱۵×۷', '۲۸٬۵۰۰', '', '', 28500],
+  ['جعبه دایکاتی کشویی', 'کد ۲۰۳ — ۲۰×۱۲×۶', '۳۱٬۰۰۰', '', '', 31000],
+  ['کارتن پنج‌لایه بزرگ', 'کد ۱۰۳ — ۵۰×۴۰×۳۰', '۴۶٬۰۰۰', '', '', 46000],
 ];
 
 const BOXSVG = `<svg viewBox="0 0 170 150" fill="none" aria-hidden="true">
@@ -733,16 +733,20 @@ pages['shop.html'] = {
 
   <div class="wrap" style="padding-bottom:50px">
     <div class="grid-products">
-      ${SHOP.map(([n, m, p, img, badge], i) => `
-      <a class="card rev rev-up d${i % 4}" href="product.html">
-        <span class="art">${badge ? `<span class="badge">${badge}</span>` : ''}${
-        img ? `<img src="assets/img/${img}" alt="${n}" loading="lazy">` : BOXSVG}</span>
-        <span class="body">
-          <b>${n}</b>
+      ${SHOP.map(([n, m, p, img, badge, u], i) => `
+      <div class="card rev rev-up d${i % 4}">
+        <a class="art" href="product.html" aria-label="${n}">${badge ? `<span class="badge">${badge}</span>` : ''}${
+        img ? `<img src="assets/img/${img}" alt="${n}" loading="lazy">` : BOXSVG}</a>
+        <div class="body">
+          <a href="product.html"><b>${n}</b></a>
           <span class="meta">${m}</span>
           <span class="price"><b>${p}</b><span>تومان / عدد</span></span>
-        </span>
-      </a>`).join('')}
+          <button class="btn btn-navy btn-block" type="button" style="margin-top:12px;min-height:44px;font-size:14px"
+            data-add data-name="${n}" data-opts="${m}" data-unit="${u}" data-qty="50"${img ? ` data-img="assets/img/${img}"` : ''}>
+            افزودن ۵۰ عدد به سبد
+          </button>
+        </div>
+      </div>`).join('')}
     </div>
   </div>
 </main>
@@ -816,7 +820,7 @@ pages['product.html'] = {
         </div>
 
         <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
-          <button class="btn btn-gold" type="button" style="flex:1 1 200px">افزودن به سبد خرید</button>
+          <button class="btn btn-gold" type="button" style="flex:1 1 200px" data-add-configured>افزودن به سبد خرید</button>
           <a class="btn btn-outline" href="${TEL}">مشاوره تلفنی</a>
         </div>
 
@@ -842,6 +846,13 @@ pages['product.html'] = {
   </div>
 </main>
 `
+};
+
+pages['cart.html'] = {
+  title: 'سبد خرید | کیاپک',
+  desc: 'سبد خرید فروشگاه کیاپک — کارتن و جعبه آماده از ۵۰ عدد.',
+  active: 'cart',
+  body: CART_BODY
 };
 
 pages['login.html'] = {

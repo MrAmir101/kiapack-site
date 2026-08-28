@@ -286,3 +286,25 @@ export const SIGNUP_BODY = `
   </div>
 </main>
 `;
+
+
+/* ---------- Cart page ------------------------------------------------------ */
+
+export const CART_BODY = `
+<main id="main" data-cart-page>
+  <div class="wrap">
+    <nav class="crumb" aria-label="مسیر"><a href="index.html">خانه</a> / <b>سبد خرید</b></nav>
+    <div class="phead">
+      <h1>سبد خرید</h1>
+      <p>تعداد هر قلم مضربی از ۵۰ عدد است. برای تیراژ بالا و چاپ اختصاصی، <a href="custom.html">استعلام قیمت</a> بگیرید.</p>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-bottom:56px">
+    <div class="cart-cols">
+      <div class="cart-list" data-cart-list></div>
+      <div data-cart-summary></div>
+    </div>
+  </div>
+</main>
+`;

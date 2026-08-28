@@ -344,7 +344,142 @@
     }
   }
 
+
+  /* ------------------------------------------------------------- cart -- */
+
+  var CART_KEY = 'kiapack.cart.v1';
+  var FREE_SHIP = 3000000;
+
+  function cartRead() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; }
+    catch (e) { return []; }
+  }
+  function cartWrite(items) {
+    try { localStorage.setItem(CART_KEY, JSON.stringify(items)); } catch (e) {}
+    cartPaint();
+  }
+  function cartCount() {
+    return cartRead().reduce(function (n, it) { return n + 1; }, 0);
+  }
+  function cartTotal() {
+    return cartRead().reduce(function (n, it) { return n + it.unit * it.qty; }, 0);
+  }
+  function cartPaint() {
+    var n = cartCount();
+    $$('.cart-n').forEach(function (el) {
+      el.textContent = fa(n);
+      el.style.display = n ? '' : 'none';
+    });
+  }
+
+  var toastEl = null, toastT = null;
+  function toast(msg) {
+    if (!toastEl) {
+      toastEl = document.createElement('div');
+      toastEl.className = 'toast';
+      toastEl.setAttribute('role', 'status');
+      document.body.appendChild(toastEl);
+    }
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(function () { toastEl.classList.remove('show'); }, 2600);
+  }
+
+  cartPaint();
+
+  /* ---- the cart page ---- */
+
+  var cartRoot = $('[data-cart-page]');
+  if (cartRoot) {
+    var listEl = $('[data-cart-list]', cartRoot);
+    var sumEl = $('[data-cart-summary]', cartRoot);
+
+    var BOXGLYPH = '<svg viewBox="0 0 24 24" fill="none" stroke="#9A7A2E" stroke-width="1.3" stroke-linejoin="round" aria-hidden="true"><path d="M3 8 12 4l9 4-9 4Z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg>';
+
+    var paintCart = function () {
+      var items = cartRead();
+
+      if (!items.length) {
+        listEl.innerHTML = '<div class="empty">'
+          + '<svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" aria-hidden="true"><path d="M3 8 12 4l9 4-9 4Z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg>'
+          + '<h2>سبد خرید خالی است</h2>'
+          + '<p>از فروشگاه، طرح‌های آماده را از ۵۰ عدد سفارش دهید.</p>'
+          + '<p style="margin-top:20px"><a class="btn btn-navy" href="shop.html">رفتن به فروشگاه</a></p>'
+          + '</div>';
+        if (sumEl) sumEl.innerHTML = '';
+        return;
+      }
+
+      listEl.innerHTML = items.map(function (it, i) {
+        var thumb = it.img
+          ? '<img src="' + it.img + '" alt="">'
+          : BOXGLYPH;
+        return '<div class="cart-row">'
+          + '<div class="thumb">' + thumb + '</div>'
+          + '<div>'
+          +   '<b>' + it.name + '</b>'
+          +   '<div class="meta">' + (it.opts || '') + '</div>'
+          +   '<div class="foot">'
+          +     '<div class="qty-ctl">'
+          +       '<button type="button" data-dec="' + i + '" aria-label="کاهش تعداد">−</button>'
+          +       '<span>' + fa(it.qty) + ' عدد</span>'
+          +       '<button type="button" data-inc="' + i + '" aria-label="افزایش تعداد">+</button>'
+          +     '</div>'
+          +     '<div class="sum">' + fa(it.unit * it.qty) + ' <small>تومان</small></div>'
+          +   '</div>'
+          +   '<button type="button" class="link-danger" data-rm="' + i + '">حذف از سبد</button>'
+          + '</div></div>';
+      }).join('');
+
+      var total = cartTotal();
+      var left = Math.max(0, FREE_SHIP - total);
+      var pct = Math.min(100, Math.round((total / FREE_SHIP) * 100));
+      if (sumEl) sumEl.innerHTML = '<div class="cart-summary">'
+        + '<div class="r"><span class="g">جمع کالاها</span><span>' + fa(total) + ' تومان</span></div>'
+        + '<div class="r"><span class="g">هزینه ارسال</span><span>' + (left ? 'در زمان تحویل' : 'رایگان') + '</span></div>'
+        + '<div class="r total"><span>مبلغ قابل پرداخت</span><span>' + fa(total) + ' تومان</span></div>'
+        + '<a class="btn btn-gold btn-block" href="custom.html" style="margin-top:16px">ادامه و ثبت سفارش</a>'
+        + '<div class="free-ship">'
+        +   (left ? 'تا ارسال رایگان <b>' + fa(left) + ' تومان</b> باقی مانده.' : 'سفارش شما شامل <b>ارسال رایگان</b> است.')
+        +   '<span class="meter"><i style="width:' + pct + '%"></i></span>'
+        + '</div>'
+        + '</div>';
+    };
+
+    listEl.addEventListener('click', function (e) {
+      var inc = e.target.closest('[data-inc]'), dec = e.target.closest('[data-dec]'), rm = e.target.closest('[data-rm]');
+      var items = cartRead();
+      if (inc) { var a = Number(inc.getAttribute('data-inc')); items[a].qty += 50; }
+      else if (dec) { var b = Number(dec.getAttribute('data-dec')); items[b].qty = Math.max(50, items[b].qty - 50); }
+      else if (rm) { items.splice(Number(rm.getAttribute('data-rm')), 1); }
+      else return;
+      cartWrite(items);
+      paintCart();
+    });
+
+    paintCart();
+  }
+
+  /* ---- add-to-cart buttons anywhere on the site ---- */
+
+  $$('[data-add]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var items = cartRead();
+      items.push({
+        name: btn.getAttribute('data-name') || 'محصول',
+        opts: btn.getAttribute('data-opts') || '',
+        unit: Number(btn.getAttribute('data-unit')) || 0,
+        qty: Number(btn.getAttribute('data-qty')) || 50,
+        img: btn.getAttribute('data-img') || ''
+      });
+      cartWrite(items);
+      toast('به سبد خرید اضافه شد');
+    });
+  });
+
   /* --------------------------------------------------- box configurator -- */
+
 
 
   var root = $('[data-product]');
@@ -460,6 +595,22 @@
     $stage.addEventListener('pointerup', stop);
     $stage.addEventListener('pointercancel', stop);
     $stage.style.cursor = 'grab';
+  }
+
+  var addBtn = $('[data-add-configured]');
+  if (addBtn) {
+    addBtn.addEventListener('click', function () {
+      var s = SIZES[state.size];
+      var unit = s.prices[Math.max(0, QTYS.indexOf(state.qty))];
+      var items = cartRead();
+      items.push({
+        name: 'کارتن پستی سه‌لایه',
+        opts: s.name + ' · ' + s.dims + ' · ' + FINISH[state.finish].name,
+        unit: unit, qty: state.qty, img: ''
+      });
+      cartWrite(items);
+      toast('به سبد خرید اضافه شد');
+    });
   }
 
   render();

@@ -191,9 +191,11 @@ svg { flex-shrink: 0; }
 /* the gold ribbon across the cover of their profile */
 .ribbon::after {
   content: ''; position: absolute; z-index: 0; pointer-events: none;
-  top: -40%; inset-inline-start: -10%; width: 46%; height: 190%;
-  background: linear-gradient(115deg, transparent 44%, var(--gold) 44%, var(--gold-lift) 49%, var(--gold) 53%, transparent 53.4%);
-  opacity: .85;
+  top: -45%; inset-inline-end: -6%; width: 52%; height: 195%;
+  background: linear-gradient(115deg,
+    transparent 40%, var(--gold) 40%, var(--gold-lift) 45%, var(--gold) 49.5%, transparent 49.9%,
+    transparent 56%, rgba(201,162,75,.34) 56%, rgba(201,162,75,.34) 58.5%, transparent 58.9%);
+  opacity: .9;
 }
 
 /* ---------- Hero --------------------------------------------------------- */

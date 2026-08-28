@@ -33,7 +33,7 @@ reseller. It's interactive — try it.
 |---|---|
 | `index.html` | Home — the two audiences (retail shop / custom production) split above the fold |
 | `shop.html` | Product listing with RTL filter sidebar, 12 products |
-| `product.html` | Product detail with **working** quantity tiers and size selector |
+| `product.html` | Product detail with a **working configurator** — size, finish and quantity drive a live drawing and live pricing |
 | `saffron.html` | The existing B2B business — product families, capabilities, quote request |
 | `custom.html` | Custom branding — what can be printed, the order path, quote request |
 
@@ -83,7 +83,7 @@ and the product vocabulary (پاکت، جعبه آذین، جعبه صادرات
 
 **Sample values — replace before any real use:**
 
-- All prices (`۴٬۲۰۰ تومان` per cup, the tier discounts, every listing price)
+- All prices (`۷٬۹۰۰ تومان` per cup at 50 units, the tier discounts, every listing price)
 - Product counts, dimensions, grammage, lead times, minimum quantities
 - The retail products themselves — cups, carriers, bags, boxes are **drawn illustrations**,
   because that product line does not exist yet and there is nothing to photograph
@@ -109,10 +109,12 @@ Then open <http://localhost:8099>. Opening `index.html` directly from disk works
 ```
 index.html  shop.html  product.html  saffron.html  custom.html
 assets/
-  style.css      design system — tokens, layout, components
-  app.js         mobile nav + product quantity tiers
+  style.css      layout, components, responsive rules
+  layer3.css     brand layer — palette, perforation, chamfers, motion
+  app.js         mobile nav, scroll reveal, product configurator
   img/           saffron product photography
 design/          the original multi-artboard design canvas source (.dc.html)
+docs/            reference audit of five competitor sites
 ```
 
 ## Verified

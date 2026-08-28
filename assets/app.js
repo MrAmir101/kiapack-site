@@ -1,38 +1,45 @@
-/* Kiapack concept site — interaction */
+/* کیاپک — interaction */
 (function () {
   'use strict';
 
   var FA = '۰۱۲۳۴۵۶۷۸۹';
-
   function fa(n) {
-    return String(n)
-      .replace(/\B(?=(\d{3})+(?!\d))/g, '٬')
-      .replace(/[0-9]/g, function (d) { return FA[Number(d)]; });
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '٬')
+                    .replace(/[0-9]/g, function (d) { return FA[Number(d)]; });
   }
 
-  /* ---- mobile navigation ---- */
-  var toggle = document.querySelector('[data-nav-toggle]');
-  var menu = document.querySelector('[data-mobile-nav]');
-  if (toggle && menu) {
-    toggle.addEventListener('click', function () {
-      var open = menu.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  /* ---- mobile nav ---- */
+  var burger = document.querySelector('[data-burger]');
+  var mnav = document.querySelector('[data-mnav]');
+  if (burger && mnav) {
+    burger.addEventListener('click', function () {
+      var open = mnav.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   }
 
+  /* ---- chip groups ---- */
+  document.querySelectorAll('.chips').forEach(function (group) {
+    group.addEventListener('click', function (e) {
+      var chip = e.target.closest('.chip');
+      if (!chip) return;
+      group.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('on'); });
+      chip.classList.add('on');
+    });
+  });
+
   /* ---- scroll reveal ---- */
-  var reveals = document.querySelectorAll('.reveal');
-  if (reveals.length) {
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce || !('IntersectionObserver' in window)) {
-      Array.prototype.forEach.call(reveals, function (el) { el.classList.add('in'); });
+  var revs = document.querySelectorAll('.rev');
+  if (revs.length) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      revs.forEach(function (el) { el.classList.add('in'); });
     } else {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (en) {
           if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
         });
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-      Array.prototype.forEach.call(reveals, function (el) { io.observe(el); });
+      revs.forEach(function (el) { io.observe(el); });
     }
   }
 
@@ -41,133 +48,112 @@
   if (!root) return;
 
   var QTYS = [50, 100, 250, 500];
-  var NOTES = ['شروع خرید', 'مغازه‌ی کوچک', 'کافه‌ی کوچک', 'بهترین قیمت'];
+  var NOTES = ['شروع خرید', 'کسب‌وکار کوچک', 'فروشگاه', 'بهترین قیمت'];
 
   var SIZES = {
-    4:  { prices: [6200, 5700, 5100, 4700], dims: '۷ × ۸ سانتی‌متر', ml: '۱۲۰ میلی‌لیتر', h: 78, w: 46 },
-    8:  { prices: [7900, 7200, 6400, 5900], dims: '۸ × ۱۱ سانتی‌متر', ml: '۲۴۰ میلی‌لیتر', h: 100, w: 54 },
-    12: { prices: [9400, 8600, 7700, 7100], dims: '۹ × ۱۳ سانتی‌متر', ml: '۳۶۰ میلی‌لیتر', h: 118, w: 60 }
+    s: { name: 'کوچک',  prices: [14900, 13600, 12100, 11200], dims: '۲۰×۱۵×۱۰ سانتی‌متر', cap: 'تا ۳ کیلوگرم', w: 96,  h: 74,  d: 34 },
+    m: { name: 'متوسط', prices: [18900, 17300, 15400, 14200], dims: '۳۰×۲۰×۱۵ سانتی‌متر', cap: 'تا ۸ کیلوگرم', w: 118, h: 88,  d: 44 },
+    l: { name: 'بزرگ',  prices: [24500, 22400, 19900, 18300], dims: '۵۰×۴۰×۳۰ سانتی‌متر', cap: 'تا ۲۰ کیلوگرم', w: 140, h: 104, d: 54 }
   };
 
-  var FINISHES = {
-    kraft: { name: 'کرافت طبیعی', body: '#E3CDAE', shade: '#CBB292', lid: '#14181D', lidTop: '#2A333B', band: '#C9AE8C' },
-    white: { name: 'سفید ساده',   body: '#FDFCFA', shade: '#E9E2D8', lid: '#14181D', lidTop: '#2A333B', band: '#EFE9E0' },
-    cyan:  { name: 'فیروزه‌ای',    body: '#FDFCFA', shade: '#E9E2D8', lid: '#24B4E4', lidTop: '#4AC6EF', band: '#24B4E4' },
-    ink:   { name: 'مشکی مات',     body: '#2A333B', shade: '#1D242B', lid: '#14181D', lidTop: '#3A444E', band: '#14181D' }
+  var FINISH = {
+    kraft: { name: 'کرافت ساده',  top: '#F0E2CD', left: '#E3CDAE', right: '#CBB292', seam: '#B69B78' },
+    white: { name: 'سفید',        top: '#FCFCFC', left: '#EFEFEF', right: '#DCDCDC', seam: '#C4C4C4' },
+    print: { name: 'چاپ‌دار',      top: '#F0E2CD', left: '#E3CDAE', right: '#CBB292', seam: '#B69B78', band: '#0A1730' },
+    lam:   { name: 'لمینتی براق', top: '#1C3157', left: '#0E1E3C', right: '#081428', seam: '#22355C', band: '#C9A24B' }
   };
 
-  var state = { size: 8, qty: 100, finish: 'kraft' };
+  var state = { size: 'm', qty: 100, finish: 'kraft' };
 
-  var tiersEl = root.querySelector('[data-tiers]');
-  var sizesEl = root.querySelector('[data-sizes]');
-  var finishEl = root.querySelector('[data-finishes]');
-  var stageEl = root.querySelector('[data-stage]');
-  var dimsEl = root.querySelector('[data-dims]');
-  var mlEl = root.querySelector('[data-ml]');
-  var finishNameEl = root.querySelector('[data-finish-name]');
-  var unitEls = root.querySelectorAll('[data-unit]');
-  var qtyEls = root.querySelectorAll('[data-qty]');
-  var totalEls = root.querySelectorAll('[data-total]');
-  var saveEls = root.querySelectorAll('[data-saving]');
+  var $tiers = root.querySelector('[data-tiers]');
+  var $sizes = root.querySelector('[data-sizes]');
+  var $fin = root.querySelector('[data-finishes]');
+  var $stage = root.querySelector('[data-stage]');
+  var $dims = root.querySelectorAll('[data-dims]');
+  var $cap = root.querySelectorAll('[data-cap]');
+  var $fname = root.querySelectorAll('[data-finish-name]');
+  var $unit = root.querySelectorAll('[data-unit]');
+  var $qty = root.querySelectorAll('[data-qty]');
+  var $total = root.querySelectorAll('[data-total]');
+  var $save = root.querySelectorAll('[data-saving]');
 
-  function cupSvg() {
-    var f = FINISHES[state.finish];
-    var s = SIZES[state.size];
-    var w = s.w, h = s.h;
-    var cx = 100, baseY = 190;
-    var topY = baseY - h;
-    var topW = w, botW = w * 0.74;
-    var lx = cx - topW, rx = cx + topW;
-    var blx = cx - botW, brx = cx + botW;
-    var ry = topW * 0.28;
-
-    return '<svg viewBox="0 0 200 210" width="100%" height="100%" role="img" aria-label="پیش‌نمایش لیوان">'
-      + '<ellipse cx="' + cx + '" cy="' + (baseY + 8) + '" rx="' + (botW + 16) + '" ry="10" fill="#14181D" opacity=".12"/>'
-      + '<path d="M' + lx + ' ' + topY + ' H' + rx + ' L' + brx + ' ' + baseY + ' a' + botW + ' ' + (botW * 0.26) + ' 0 0 1 -' + (botW * 2) + ' 0 Z" fill="' + f.body + '"/>'
-      + '<path d="M' + cx + ' ' + topY + ' H' + rx + ' L' + brx + ' ' + baseY + ' a' + botW + ' ' + (botW * 0.26) + ' 0 0 1 -' + botW + ' ' + (botW * 0.26) + ' Z" fill="' + f.shade + '"/>'
-      + '<rect x="' + (lx + 6) + '" y="' + (topY + h * 0.34) + '" width="' + (topW * 2 - 12) + '" height="' + (h * 0.2) + '" fill="' + f.band + '" opacity=".55"/>'
-      + '<ellipse cx="' + cx + '" cy="' + topY + '" rx="' + topW + '" ry="' + ry + '" fill="' + f.lid + '"/>'
-      + '<ellipse cx="' + cx + '" cy="' + (topY - 3) + '" rx="' + (topW * 0.78) + '" ry="' + (ry * 0.74) + '" fill="' + f.lidTop + '"/>'
+  function boxSvg() {
+    var f = FINISH[state.finish], s = SIZES[state.size];
+    var cx = 110, by = 178, w = s.w, h = s.h, d = s.d;
+    var top = by - h;
+    // isometric box: top rhombus + two side faces
+    var p = {
+      tt: cx + ',' + (top - d),
+      tr: (cx + w) + ',' + top,
+      tb: cx + ',' + (top + d),
+      tl: (cx - w) + ',' + top
+    };
+    var band = f.band
+      ? '<rect x="' + (cx - w + 12) + '" y="' + (top + d + h * 0.30) + '" width="' + (w - 20) + '" height="' + (h * 0.19) + '" fill="' + f.band + '" opacity=".9"/>'
+      : '';
+    return '<svg viewBox="0 0 220 210" width="100%" height="100%" role="img" aria-label="پیش‌نمایش جعبه">'
+      + '<ellipse cx="' + cx + '" cy="' + (by + 12) + '" rx="' + (w + 14) + '" ry="12" fill="#131A24" opacity=".13"/>'
+      + '<path d="M' + p.tl + ' L' + p.tb + ' L' + cx + ',' + (top + d + h) + ' L' + (cx - w) + ',' + (top + h) + ' Z" fill="' + f.left + '"/>'
+      + '<path d="M' + p.tb + ' L' + p.tr + ' L' + (cx + w) + ',' + (top + h) + ' L' + cx + ',' + (top + d + h) + ' Z" fill="' + f.right + '"/>'
+      + '<path d="M' + p.tt + ' L' + p.tr + ' L' + p.tb + ' L' + p.tl + ' Z" fill="' + f.top + '"/>'
+      + '<path d="M' + p.tt + ' L' + p.tb + '" stroke="' + f.seam + '" stroke-width="1.4"/>'
+      + band
       + '</svg>';
   }
 
   function render() {
-    var s = SIZES[state.size];
-    var prices = s.prices;
-    var base = prices[0];
-    var idx = QTYS.indexOf(state.qty);
-    if (idx < 0) { idx = 1; state.qty = QTYS[1]; }
-    var unit = prices[idx];
+    var s = SIZES[state.size], prices = s.prices, base = prices[0];
+    var i = QTYS.indexOf(state.qty);
+    if (i < 0) { i = 1; state.qty = QTYS[1]; }
+    var unit = prices[i];
     var saving = Math.round((1 - unit / base) * 100);
 
-    tiersEl.innerHTML = QTYS.map(function (q, i) {
+    $tiers.innerHTML = QTYS.map(function (q, k) {
       var on = q === state.qty;
-      var cut = Math.round((1 - prices[i] / base) * 100);
-      return '<button type="button" class="tier' + (on ? ' on' : '') + '" data-tier="' + q + '"' +
-        ' aria-pressed="' + (on ? 'true' : 'false') + '">' +
-        '<span class="left">' +
-          '<span class="radio" aria-hidden="true"></span>' +
-          '<span><span class="qty">' + fa(q) + ' عدد</span>' +
-          '<span class="note">' + NOTES[i] + '</span></span>' +
-        '</span>' +
-        '<span class="right">' +
-          '<span class="unit">' + fa(prices[i]) + ' <small>ت/عدد</small></span>' +
-          '<span class="saving' + (cut > 0 ? '' : ' base') + '">' +
-            (cut > 0 ? fa(cut) + '٪ ارزان‌تر' : 'قیمت پایه') +
-          '</span>' +
-        '</span>' +
-      '</button>';
+      var cut = Math.round((1 - prices[k] / base) * 100);
+      return '<button type="button" class="tier' + (on ? ' on' : '') + '" data-tier="' + q + '" aria-pressed="' + on + '">'
+        + '<span class="l"><span class="dot" aria-hidden="true"></span>'
+        + '<span><span class="q">' + fa(q) + ' عدد</span><span class="n">' + NOTES[k] + '</span></span></span>'
+        + '<span style="text-align:left"><span class="u">' + fa(prices[k]) + ' <small>ت/عدد</small></span><br>'
+        + '<span class="cut' + (cut > 0 ? '' : ' base') + '">' + (cut > 0 ? fa(cut) + '٪ ارزان‌تر' : 'قیمت پایه') + '</span></span>'
+        + '</button>';
     }).join('');
 
-    Array.prototype.forEach.call(sizesEl.querySelectorAll('[data-size]'), function (b) {
-      var on = Number(b.getAttribute('data-size')) === state.size;
+    $sizes.querySelectorAll('[data-size]').forEach(function (b) {
+      var on = b.getAttribute('data-size') === state.size;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if ($fin) $fin.querySelectorAll('[data-finish]').forEach(function (b) {
+      var on = b.getAttribute('data-finish') === state.finish;
       b.classList.toggle('on', on);
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
 
-    if (finishEl) {
-      Array.prototype.forEach.call(finishEl.querySelectorAll('[data-finish]'), function (b) {
-        var on = b.getAttribute('data-finish') === state.finish;
-        b.classList.toggle('on', on);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-    }
-
-    if (stageEl) stageEl.innerHTML = cupSvg();
-    if (dimsEl) dimsEl.textContent = s.dims;
-    if (mlEl) mlEl.textContent = s.ml;
-    if (finishNameEl) finishNameEl.textContent = FINISHES[state.finish].name;
-
-    Array.prototype.forEach.call(unitEls, function (el) { el.textContent = fa(unit); });
-    Array.prototype.forEach.call(qtyEls, function (el) { el.textContent = fa(state.qty) + ' عدد'; });
-    Array.prototype.forEach.call(totalEls, function (el) { el.textContent = fa(unit * state.qty); });
-    Array.prototype.forEach.call(saveEls, function (el) {
-      el.textContent = saving > 0 ? (fa(saving) + '٪ ارزان‌تر از تیراژ پایه') : 'قیمت پایه';
+    if ($stage) $stage.innerHTML = '<span class="chip-abs">پیش‌نمایش زنده</span>' + boxSvg();
+    $dims.forEach(function (e) { e.textContent = s.dims; });
+    $cap.forEach(function (e) { e.textContent = s.cap; });
+    $fname.forEach(function (e) { e.textContent = FINISH[state.finish].name; });
+    $unit.forEach(function (e) { e.textContent = fa(unit); });
+    $qty.forEach(function (e) { e.textContent = fa(state.qty) + ' عدد'; });
+    $total.forEach(function (e) { e.textContent = fa(unit * state.qty); });
+    $save.forEach(function (e) {
+      e.textContent = saving > 0 ? fa(saving) + '٪ ارزان‌تر از تیراژ پایه' : 'قیمت پایه';
     });
   }
 
-  tiersEl.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-tier]');
-    if (!btn) return;
-    state.qty = Number(btn.getAttribute('data-tier'));
-    render();
+  $tiers.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tier]');
+    if (b) { state.qty = Number(b.getAttribute('data-tier')); render(); }
   });
-
-  sizesEl.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-size]');
-    if (!btn) return;
-    state.size = Number(btn.getAttribute('data-size'));
-    render();
+  $sizes.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-size]');
+    if (b) { state.size = b.getAttribute('data-size'); render(); }
   });
-
-  if (finishEl) {
-    finishEl.addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-finish]');
-      if (!btn) return;
-      state.finish = btn.getAttribute('data-finish');
-      render();
-    });
-  }
+  if ($fin) $fin.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-finish]');
+    if (b) { state.finish = b.getAttribute('data-finish'); render(); }
+  });
 
   render();
 })();

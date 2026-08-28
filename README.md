@@ -1,153 +1,106 @@
-# Kiapack — website concept / نمونهٔ طراحی سایت کیاپک
+# کیاپک — نمونهٔ طراحی سایت / KiaPack website concept
 
-A responsive, Persian (RTL) website concept for **Kiapack — کیا کارتن بسته‌نگار**
-([@kiapack.co](https://www.instagram.com/kiapack.co/)), a box and carton manufacturer in the
-Shams Abad industrial estate, Iran. It covers their existing B2B business — جعبه مقوایی،
-جعبه لمینتی، کارتن ساده — and a proposed direct-to-consumer shop for small-quantity packaging.
+A responsive, Persian (RTL) website concept for **شرکت چاپ و بسته‌بندی کیا کارتن بسته‌نگار**
+([@kiapack.co](https://www.instagram.com/kiapack.co/)) — a printing and packaging factory in the
+Shams Abad industrial estate, founded in ۱۳۷۸.
 
 **This is an unofficial design concept, not the company's live website.**
 
-> نمونهٔ طراحی است، نه سایت رسمی شرکت. قیمت‌ها، تعداد محصولات و بخشی از مشخصات فنی
-> **نمونه‌اند و واقعی نیستند** و باید پیش از هر استفادهٔ واقعی با اعداد درست جایگزین شوند.
+> نمونهٔ طراحی است، نه سایت رسمی شرکت. قیمت‌های فروشگاه **نمونه‌اند** و عکس‌ها
+> **موقت** هستند و باید با عکس‌های واقعی کارخانه جایگزین شوند.
+
+**Live:** https://mramir101.github.io/kiapack-site/
 
 ---
-
-## The idea behind it
-
-Kiapack's factory minimums (3,000–10,000 units) exclude exactly the customers who want their
-products most: single cafés, small shops, online sellers, gift shops. The concept adds a retail
-line — paper cups, cup carriers, shopping bags, gift boxes — sold online from **50 units**,
-which does three things at once:
-
-1. Opens a new revenue line that the current business turns away
-2. Builds brand recognition, so people search for *کیاپک* by name instead of buying generic SEO
-3. Feeds qualified buyers into the high-margin custom/bulk business — a café buys 200 plain cups,
-   comes back for 4,000 printed with their own logo
-
-The **quantity-tier pricing** on the product page is the commercial centrepiece: per-unit price
-drops as quantity rises, which is the whole argument for buying from a factory rather than a
-reseller. It's interactive — try it.
 
 ## Pages
 
 | File | What it is |
 |---|---|
-| `index.html` | Home — the two audiences (retail shop / custom production) split above the fold |
-| `shop.html` | Product listing with RTL filter sidebar, 12 products |
+| `index.html` | Home — positioning, the eight product families, machinery, services, clients, FAQ |
+| `products.html` | The eight box families, equipment list, services, buying guide |
+| `shop.html` | Proposed low-volume retail line — ready-made stock from ۵۰ عدد |
 | `product.html` | Product detail with a **working configurator** — size, finish and quantity drive a live drawing and live pricing |
-| `cartons.html` | The existing B2B business — جعبه و کارتن صنعتی, capabilities, quote request |
-| `custom.html` | Custom branding — what can be printed, the order path, quote request |
+| `about.html` | درباره ما — company record, registration details, clients |
+| `custom.html` | استعلام قیمت — the quote request and how an order runs |
 
 ## Design decisions
 
-**The art direction is taken from the logo, not invented.** The Kiapack mark is a
-black diamond with a **perforated edge** — a die-cut carton reference — holding two
-angular chevron strokes, one white and one azure. Colours were sampled straight out
-of the logo file rather than chosen:
+**The art direction comes from the company's own printed profile**, not from anything invented:
 
 | | | |
 |---|---|---|
-| Azure | `#24B4E4` | sampled from the mark; the single accent |
-| Near-black | `#090C0A` | sampled; the dominant ground |
-| White | `#FFFFFF` | page surface |
-| Cool grey | `#F4F8FA` | secondary surface |
-| Amber | `#C9A227` | reserved for the industrial B2B page only |
+| Navy | `#0A1730` | the brochure ground; hero, bands, footer |
+| Gold | `#C9A24B` | the single accent — rules, icons, primary buttons |
+| Gold lift | `#E3C783` | headline highlight |
+| White / cool grey | `#FFFFFF` / `#F5F6F8` | content surfaces |
 
-Three motifs carry that identity through the site:
+Three details carry that identity through the site: the **gold diagonal ribbon** across the
+hero (straight off their cover), **gold hairline rules and thin line icons**, and the
+**bordered fact boxes** that their profile uses for company details. Nothing has a rounded
+corner — the profile is all straight rules and hard edges.
 
-1. **The perforation.** Sections are separated by a die-cut edge — the same
-   stamp-like perforation that outlines the logo.
-2. **The 45° chamfer.** Cards, buttons and swatches have two opposite corners
-   sliced at 45°, echoing the diamond. Nothing on the site has a rounded corner.
-3. **Dark-forward.** The hero, the price ladder, the footer and the tab bar are
-   near-black with azure chevron beams, the way the logo lockup sits on black.
-
-An earlier draft used a warm kraft-and-turquoise palette. It was wrong: it fought
-the cool, angular, high-contrast mark the company already owns. Warm tones now
-appear only inside product artwork, where the material actually is brown card.
-
-**RTL is native, not flipped.** Layout, navigation, breadcrumbs, form fields and
-cards are authored right-to-left. Persian digits (۱۲۳) and Toman throughout. Type
-is Vazirmatn at 1.9 line-height — Persian needs more vertical room than Latin.
+**RTL is native, not flipped.** Layout, navigation, breadcrumbs, form fields and cards are
+authored right-to-left. Persian digits (۱۲۳) and Toman throughout. Vazirmatn at ~1.95
+line-height, because Persian needs more vertical room than Latin.
 
 **The configurator is the differentiator.** Five competitor sites were reviewed
-(see `docs/reference-audit.md`); all five are catalogues where you read a price and
-phone someone. Here the visitor picks a size, a finish and a quantity, and the unit
-price, the saving, the total and the drawing of the cup all update live. That is the
-argument for buying from a factory, made tangible instead of written in a paragraph.
+(`docs/reference-audit.md`); all five are catalogues where you read a price and phone someone.
+Here the visitor picks a size, a finish and a quantity, and the unit price, the saving, the
+total and the drawing of the box all update live.
 
 ## What is real and what is not
 
-**Real** — taken from the company's public Instagram
-[@kiapack.co](https://www.instagram.com/kiapack.co/): the trading name (کیا کارتن بسته‌نگار),
-the location (شهرک صنعتی شمس‌آباد), and the product vocabulary
-(جعبه مقوایی، جعبه لمینتی، کارتن ساده).
-
-> **Correction.** An earlier revision of this repo was built against
-> `@kiapackco` — a *different* company (saffron packaging, Khorasan) that was guessed
-> from the domain name. Its logo, phone number and product photographs were used by
-> mistake and have all been removed. Do not restore them from git history.
+**Real** — from the company's own profile, recorded in `docs/company-facts.md`: the registered
+name, tagline, founding year, managing director, registration and national ID numbers, phone,
+address, the eight product families, the machinery list, the services list, and the client names.
 
 **Sample values — replace before any real use:**
 
-- All prices (`۷٬۹۰۰ تومان` per cup at 50 units, the tier discounts, every listing price)
-- Product counts, dimensions, grammage, lead times, minimum quantities
-- The retail products themselves — cups, carriers, bags, boxes are **drawn illustrations**,
-  because that product line does not exist yet and there is nothing to photograph
-- **Every photograph.** There is no product photography in this repo at all. Each place a
-  photo belongs is a marked `[عکس محصول]` slot — see "What is still needed" below
-
-**Marked placeholders** left visible in the markup: `[شماره تماس]`,
-`[آدرس دقیق کارخانه]`, `[عکس محصول]` (11 slots), `[لوگوی مشتری]`, and the trust-badge
-slots (نماد اعتماد / ساماندهی).
+- Every price in `shop.html` and `product.html`, and the tier discounts
+- Dimensions, capacities and lead times
+- **All photography.** The photos are stock (Pexels, free licence) standing in for the real
+  thing. They are placeholders, not the company's products.
 
 ## What is still needed from the company
 
 The design system is finished; these are content gaps only:
 
-1. **The logo file** — ideally vector. The mark currently in the header is a plain
-   placeholder carton glyph, deliberately generic. Nothing here should ship with it.
-2. **Product photography** — 11 marked slots. This is the single biggest gap: the
-   reference site the client rated highest (tarheaval.com) is strong mainly because
-   every product is a real 1024px photograph.
-3. **Phone number and full factory address**
-4. **Real prices** for at least one product line
-5. **Client logos**, if any may be shown
-
-**Not built** (a concept, not a shop): cart, checkout, payment gateway, accounts, CMS, search.
-Forms are styled but do not submit anywhere.
+1. **The logo file** — ideally vector. The header currently sets the "KiaPack" wordmark in
+   type. Their real mark is a slanted gold logotype and should replace it.
+2. **Real photography** — the factory, the production line, and finished boxes per family.
+   This is the single biggest gap: `tarheaval.com`, the reference the client rated highest,
+   is strong mainly because every product is a real photograph.
+3. **Client logo files** — five clients are named; their logos are shown as text cards.
+4. **Real prices** for the retail line, if that line goes ahead.
 
 ## Running it
 
-No build step, no dependencies — plain HTML and CSS with one small JS file.
+No dependencies. Pages are generated from `build.mjs`:
 
 ```bash
-python -m http.server 8099
+node build.mjs && python -m http.server 8099
 ```
 
-Then open <http://localhost:8099>. Opening `index.html` directly from disk works too.
+Then open <http://localhost:8099>. Edit `build.mjs` and re-run to regenerate all six pages —
+the shared header and footer live there, so they never drift apart.
 
 ## Structure
 
 ```
-index.html  shop.html  product.html  saffron.html  custom.html
+build.mjs           page builder — shared chrome + per-page bodies
+index.html  products.html  shop.html  product.html  about.html  custom.html
 assets/
-  style.css      layout, components, responsive rules
-  layer3.css     brand layer — palette, perforation, chamfers, motion
-  app.js         mobile nav, scroll reveal, product configurator
-  img/           saffron product photography
-design/          the original multi-artboard design canvas source (.dc.html)
-docs/            reference audit of five competitor sites
+  style.css         the design system
+  app.js            mobile nav, chips, scroll reveal, product configurator
+  img/              stock photography (placeholder)
+docs/
+  company-facts.md   verified facts from the company profile
+  reference-audit.md what the five competitor sites do
 ```
-
-## Verified
-
-- No horizontal overflow at 264px, 375px, 768px, or 1440px
-- Product configurator: per-unit price, savings badge, dimensions and total all recompute
-- Tap targets ≥44px, visible focus states, skip link, labelled form fields, alt text on images
 
 ---
 
-Domain note: `kiapackco.com` was **unregistered** as of August 2026 (NXDOMAIN, absent from the
-`.com` registry). If that domain matters to the business, it should be registered in the company's
-own name before anything else here goes ahead.
+Domain note: **kiapackco.com** — the address in their own Instagram bio — did not resolve when
+checked in August 2026 (NXDOMAIN, absent from the `.com` registry). Their bio links to a dead
+site. Worth registering in the company's own name before anything else here goes ahead.

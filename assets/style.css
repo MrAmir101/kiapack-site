@@ -298,13 +298,18 @@ svg { flex-shrink: 0; }
 /* ---------- Clients ------------------------------------------------------ */
 
 .clients { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+/* Client tiles are white plates, the way their own profile shows them */
 .client {
-  border: 1px solid var(--gold-hair); background: var(--navy-800);
-  min-height: 84px; display: flex; align-items: center; justify-content: center;
-  text-align: center; padding: 14px 12px;
-  font-size: 13px; font-weight: 700; color: #DCE4F0; line-height: 1.7;
+  border: 1px solid var(--gold-hair); background: var(--paper);
+  min-height: 92px; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 12px 14px; overflow: hidden;
 }
-.client.on-light { border-color: var(--line); background: var(--paper); color: var(--ink); }
+.client img { width: 100%; height: auto; max-height: 62px; object-fit: contain; }
+.client-text {
+  background: var(--navy-800); border-style: dashed;
+  font-size: 13px; font-weight: 700; color: #A9B6CD; line-height: 1.7;
+}
+.vhide { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 /* ---------- Quote form --------------------------------------------------- */
 
@@ -608,4 +613,73 @@ svg { flex-shrink: 0; }
   .stage { min-height: 460px; }
   .band-photo img { height: 340px; }
   .head h2 { font-size: 34px; }
+}
+
+/* ==========================================================================
+   Auth — ورود و ثبت‌نام
+   ========================================================================== */
+
+.auth { min-height: calc(100vh - 190px); display: grid; }
+.auth-art {
+  position: relative; background: var(--navy-900); overflow: hidden;
+  display: none; align-items: flex-end;
+}
+.auth-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .38; }
+.auth-art .in { position: relative; z-index: 1; padding: 44px 40px; }
+.auth-art h2 { color: #fff; font-size: 29px; line-height: 1.45; }
+.auth-art p { color: #A9B6CD; margin-top: 14px; line-height: 2.1; max-width: 400px; }
+.auth-art .pts { list-style: none; margin: 26px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.auth-art .pts li { display: flex; gap: 11px; color: #C1CCDF; font-size: 14.5px; }
+.auth-art .pts li::before { content: ''; width: 6px; height: 6px; margin-top: 11px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+.auth-form { padding: 34px 20px 46px; display: flex; align-items: center; justify-content: center; }
+.auth-box { width: 100%; max-width: 420px; }
+.auth-box h1 { font-size: 27px; }
+.auth-box .sub { font-size: 14.5px; color: var(--ink-soft); margin-top: 10px; line-height: 2; }
+.auth-box form { margin-top: 26px; }
+.auth-alt { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-soft); }
+.auth-alt a { font-weight: 800; }
+
+.seg { display: flex; border: 1px solid var(--line-strong); margin-bottom: 22px; }
+.seg button {
+  flex: 1 1 0; padding: 13px 10px; min-height: 48px; cursor: pointer;
+  background: var(--paper); border: 0; font-size: 14px; font-weight: 700; color: var(--ink-soft);
+}
+.seg button.on { background: var(--navy-900); color: #fff; font-weight: 800; }
+
+/* phone field, forced LTR so the number reads correctly */
+.tel-field input { direction: ltr; text-align: left; letter-spacing: .06em; font-weight: 700; }
+
+/* OTP boxes */
+.otp { display: flex; gap: 10px; direction: ltr; justify-content: center; }
+.otp input {
+  width: 54px; height: 62px; text-align: center; font-size: 22px; font-weight: 900;
+  border: 1px solid var(--line-strong); background: var(--paper); min-height: 62px; padding: 0;
+}
+.otp input:focus { outline: 3px solid var(--gold); outline-offset: 1px; }
+.otp-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+.otp-meta button { background: none; border: 0; color: var(--gold-deep); font-weight: 800; cursor: pointer; padding: 6px 0; }
+.otp-meta button[disabled] { color: var(--faint); cursor: default; }
+
+.step-dots { display: flex; gap: 7px; margin-bottom: 20px; }
+.step-dots i { width: 26px; height: 3px; background: var(--line-strong); }
+.step-dots i.on { background: var(--gold); }
+
+.hide { display: none !important; }
+
+.consent { display: flex; gap: 11px; align-items: flex-start; font-size: 13px; color: var(--ink-soft); line-height: 1.9; margin-top: 4px; }
+.consent input { width: 19px; height: 19px; min-height: 19px; margin-top: 4px; flex-shrink: 0; accent-color: var(--gold); }
+
+@media (min-width: 1000px) {
+  .auth { grid-template-columns: 1.05fr 1fr; }
+  .auth-art { display: flex; }
+  .auth-form { padding: 60px 40px; }
+}
+
+/* ---------- Ply explorer / fold section shells ---------------------------- */
+
+.two-col { display: grid; gap: 26px; }
+@media (min-width: 1000px) {
+  .two-col { grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+  .fold-wrap { grid-template-columns: 1fr; }
 }

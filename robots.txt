@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mramir101.github.io/kiapack-site/sitemap.xml

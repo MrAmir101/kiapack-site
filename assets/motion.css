@@ -1,0 +1,200 @@
+/* ==========================================================================
+   کیاپک — motion layer
+   Every effect is wrapped so prefers-reduced-motion gets a static,
+   fully-legible page with no animation at all.
+   ========================================================================== */
+
+/* scroll progress — a gold seam across the top of the page */
+.progress {
+  position: fixed; inset-inline: 0; top: 0; height: 3px; z-index: 100;
+  background: linear-gradient(to left, var(--gold), var(--gold-lift));
+  transform: scaleX(0); transform-origin: right center;
+  will-change: transform; pointer-events: none;
+}
+
+/* ---------- Reveal system -------------------------------------------------- */
+
+.rev { opacity: 0; }
+.rev-up { transform: translateY(22px); }
+.rev-side { transform: translateX(24px); }
+.rev-scale { transform: scale(.965); }
+.rev.in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .rev { transition: opacity .6s cubic-bezier(.22,.8,.3,1), transform .6s cubic-bezier(.22,.8,.3,1); }
+  .rev.d1 { transition-delay: .07s; }
+  .rev.d2 { transition-delay: .14s; }
+  .rev.d3 { transition-delay: .21s; }
+  .rev.d4 { transition-delay: .28s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rev { opacity: 1 !important; transform: none !important; }
+  .progress { display: none; }
+}
+
+/* ---------- Button sheen ---------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn { position: relative; overflow: hidden; }
+  .btn::after {
+    content: ''; position: absolute; top: 0; bottom: 0; width: 45%;
+    inset-inline-start: -60%;
+    background: linear-gradient(115deg, transparent, rgba(255,255,255,.42), transparent);
+    transform: skewX(-18deg); pointer-events: none;
+  }
+  .btn:hover::after { animation: sheen .62s ease-out; }
+  @keyframes sheen { to { inset-inline-start: 120%; } }
+  .btn-gold::after { background: linear-gradient(115deg, transparent, rgba(255,255,255,.62), transparent); }
+}
+
+/* ---------- Hero entrance ---------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero .copy > * { opacity: 0; transform: translateY(20px); animation: rise .75s cubic-bezier(.22,.8,.3,1) forwards; }
+  .hero .copy > *:nth-child(1) { animation-delay: .08s; }
+  .hero .copy > *:nth-child(2) { animation-delay: .17s; }
+  .hero .copy > *:nth-child(3) { animation-delay: .26s; }
+  .hero .copy > *:nth-child(4) { animation-delay: .35s; }
+  .hero .copy > *:nth-child(5) { animation-delay: .44s; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  .hero-photo { opacity: 0; animation: rise .9s cubic-bezier(.22,.8,.3,1) .3s forwards; }
+
+  .ribbon::after { opacity: 0; transform: translateY(-14%); animation: ribbonIn 1.2s cubic-bezier(.22,.8,.3,1) .12s forwards; }
+  @keyframes ribbonIn { to { opacity: .9; transform: none; } }
+}
+
+.hero-photo img { will-change: transform; }
+
+/* ---------- Category cards --------------------------------------------------- */
+
+.cat::after { transform: scaleX(0); transform-origin: right center; }
+.cat.in::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: no-preference) {
+  .cat::after { transition: transform .5s cubic-bezier(.22,.8,.3,1) .12s; }
+  .cat:hover::after { transform: scaleX(3.4); }
+  .cat .ico svg { transition: transform .4s cubic-bezier(.22,.8,.3,1); }
+  .cat:hover .ico svg { transform: translateY(-4px) scale(1.06); }
+}
+
+.count { font-variant-numeric: tabular-nums; }
+
+/* ---------- Conveyor --------------------------------------------------------- */
+
+.conveyor { overflow: hidden; position: relative; }
+.conveyor::before, .conveyor::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 70px; z-index: 2; pointer-events: none;
+}
+.conveyor::before { inset-inline-start: 0; background: linear-gradient(to left, transparent, var(--navy-900)); }
+.conveyor::after { inset-inline-end: 0; background: linear-gradient(to right, transparent, var(--navy-900)); }
+.conveyor-track { display: flex; gap: 14px; width: max-content; align-items: center; }
+.conveyor-item {
+  display: flex; align-items: center; gap: 11px; flex-shrink: 0;
+  border: 1px solid var(--gold-hair); padding: 13px 20px;
+  font-size: 14px; font-weight: 700; color: #DCE4F0; white-space: nowrap;
+}
+.conveyor-item svg { color: var(--gold); }
+@media (prefers-reduced-motion: no-preference) {
+  .conveyor-track { animation: convey 42s linear infinite; }
+  .conveyor:hover .conveyor-track { animation-play-state: paused; }
+  @keyframes convey { to { transform: translateX(50%); } }
+}
+
+/* ---------- Box fold — the signature piece ------------------------------------ */
+
+.fold-wrap { display: grid; gap: 24px; }
+.fold-stage {
+  position: relative; background: var(--navy-950); overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  padding: 26px 18px; min-height: 300px;
+}
+.fold-stage::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: linear-gradient(var(--navy-line) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--navy-line) 1px, transparent 1px);
+  background-size: 34px 34px; opacity: .22;
+}
+.fold-stage svg { position: relative; z-index: 1; width: 100%; max-width: 430px; height: auto; }
+.fold-step {
+  position: absolute; z-index: 2; bottom: 14px; inset-inline-start: 18px;
+  font-size: 12.5px; font-weight: 800; color: var(--gold);
+}
+.fold-track { height: 3px; background: var(--navy-line); position: relative; margin-top: 18px; }
+.fold-track i { position: absolute; inset-inline-start: 0; top: 0; bottom: 0; background: var(--gold); width: 0%; }
+
+/* ---------- Ply explorer ------------------------------------------------------ */
+
+.ply {
+  position: relative; overflow: hidden; background: var(--paper-2);
+  border: 1px solid var(--line); cursor: ew-resize;
+  touch-action: none; user-select: none; -webkit-user-select: none;
+}
+.ply .base { display: block; width: 100%; height: auto; }
+.ply .over { position: absolute; inset: 0; overflow: hidden; }
+.ply .over svg { position: absolute; top: 0; inset-inline-start: 0; width: 100%; height: 100%; }
+.ply .handle { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--gold); z-index: 3; pointer-events: none; }
+.ply .handle::after {
+  content: ''; position: absolute; top: 50%; inset-inline-start: 50%;
+  width: 40px; height: 40px; transform: translate(50%, -50%) rotate(45deg);
+  background: var(--gold); border: 3px solid var(--paper);
+}
+.ply .tag {
+  position: absolute; top: 14px; z-index: 4;
+  font-size: 12px; font-weight: 800; padding: 6px 13px; pointer-events: none;
+}
+.ply .tag-a { inset-inline-end: 14px; background: var(--navy-900); color: #fff; }
+.ply .tag-b { inset-inline-start: 14px; background: var(--gold); color: var(--navy-900); }
+
+/* ---------- Timeline ----------------------------------------------------------- */
+
+.timeline { position: relative; }
+.timeline::before {
+  content: ''; position: absolute; inset-inline-end: 5px; top: 8px; bottom: 8px;
+  width: 1px; background: var(--gold-hair);
+}
+.tl-item { position: relative; padding-inline-end: 30px; padding-bottom: 28px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-item::before {
+  content: ''; position: absolute; inset-inline-end: 0; top: 9px;
+  width: 11px; height: 11px; background: var(--gold); transform: rotate(45deg);
+}
+.tl-item .yr { font-size: 13px; font-weight: 800; color: var(--gold-deep); }
+.on-navy .tl-item .yr { color: var(--gold); }
+.tl-item b { display: block; font-size: 16.5px; font-weight: 800; margin-top: 2px; }
+.on-navy .tl-item b { color: #fff; }
+.tl-item p { font-size: 14px; color: var(--ink-soft); line-height: 2; margin-top: 6px; }
+.on-navy .tl-item p { color: #A9B6CD; }
+
+/* ---------- Micro-motion --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .shot img { transition: transform .7s cubic-bezier(.22,.8,.3,1); }
+  .shot:hover img { transform: scale(1.045); }
+  .client { transition: border-color .22s ease, transform .22s ease; }
+  .client:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .fact { transition: border-color .22s ease; }
+  .fact:hover { border-color: var(--gold); }
+  .tier, .opt, .swatch, .chip { transition: border-color .16s ease, background-color .16s ease, transform .16s ease; }
+  .tier:hover, .opt:hover, .chip:hover { transform: translateY(-2px); }
+  .faq summary { transition: color .16s ease; }
+  .faq summary:hover { color: var(--gold-deep); }
+  .card .art img { transition: transform .7s cubic-bezier(.22,.8,.3,1); }
+  .card:hover .art img { transform: scale(1.06); }
+}
+
+/* ---------- Focus ----------------------------------------------------------------- */
+
+a:focus-visible, button:focus-visible, summary:focus-visible, .chip:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--gold); outline-offset: 2px;
+}
+
+/* ---------- Print ------------------------------------------------------------------ */
+
+@media print {
+  .topbar, .site-header, .tabbar, .fab, .progress, .conveyor, .mnav, .fold-wrap { display: none !important; }
+  body { padding-bottom: 0; color: #000; background: #fff; }
+  .navy, .hero, .navy-deep, .site-footer { background: #fff !important; color: #000 !important; }
+  .navy h2, .hero h1, .site-footer h4, .fact b, .head h2 { color: #000 !important; }
+  .rev { opacity: 1 !important; transform: none !important; }
+}

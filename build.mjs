@@ -1,6 +1,7 @@
 /* Builds the static pages from one set of shared chrome + per-page bodies.
    Run:  node build.mjs                                                     */
 import fs from 'fs';
+import { FOLD_SECTION, PLY_SECTION, CONVEYOR, TIMELINE, LOGIN_BODY, SIGNUP_BODY } from './pages-extra.mjs';
 
 const PHONE = '۰۲۱-۵۶۹۰۱۳۱۷';
 const TEL = 'tel:+982156901317';
@@ -29,7 +30,9 @@ const CATICON = {
   home: `<svg width="34" height="34" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14 16 5l12 9"/><path d="M7 12.5V26h18V12.5"/><path d="M13 26v-7h6v7"/></svg>`,
 };
 
-const head = (title, desc, extra = '') => `<!doctype html>
+const BASE = 'https://mramir101.github.io/kiapack-site';
+
+const head = (title, desc, extra = '', slug = 'index.html') => `<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
@@ -39,10 +42,27 @@ const head = (title, desc, extra = '') => `<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=5">${extra}
+<link rel="stylesheet" href="assets/style.css?v=6">
+<link rel="stylesheet" href="assets/motion.css?v=6">
+<meta name="theme-color" content="#0A1730">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+<link rel="canonical" href="${BASE}/${slug}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="کیاپک — کیا کارتن بسته‌نگار">
+<meta property="og:locale" content="fa_IR">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:url" content="${BASE}/${slug}">
+<meta property="og:image" content="${BASE}/assets/img/hero-boxes.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${desc}">
+<meta name="twitter:image" content="${BASE}/assets/img/hero-boxes.jpg">${extra}
 </head>
 <body>
 <a class="skip-link" href="#main">پرش به محتوای اصلی</a>
+<div class="progress" aria-hidden="true"></div>
 
 <div class="topbar">
   <div class="wrap">
@@ -58,6 +78,7 @@ const NAV = [
   ['shop.html', 'فروشگاه', 'shop'],
   ['about.html', 'درباره ما', 'about'],
   ['custom.html', 'استعلام قیمت', 'custom'],
+  ['login.html', 'ورود', 'login'],
 ];
 
 const header = (active) => `
@@ -149,7 +170,7 @@ const footer = (active) => `
     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V7.5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V20"/><path d="M4 20h16M9 11h6M9 15h4"/></svg>استعلام</a>
 </nav>
 
-<script src="assets/app.js?v=5" defer></script>
+<script src="assets/app.js?v=6" defer></script>
 </body>
 </html>
 `;
@@ -168,15 +189,25 @@ const CATS = [
 ];
 
 const catCards = (rev = true) => CATS.map(([id, ico, t, d], i) => `
-        <a class="cat${rev ? ` rev d${i % 4}` : ''}" href="products.html#${id}">
+        <a class="cat${rev ? ` rev rev-up d${i % 4}` : ''}" href="products.html#${id}">
           <span class="ico">${ico}</span>
           <b>${t}</b>
           <span>${d}</span>
         </a>`).join('');
 
-const CLIENTS = ['گروه صنعتی کروز', 'گروه گلرنگ', 'گروه صنعتی عظام', 'صنایع غذایی آماده لذیذ', 'گروه صنعتی کلاریوبا'];
-const clientCards = (light = false) => CLIENTS.map(c =>
-  `<div class="client${light ? ' on-light' : ''}">${c}</div>`).join('\n        ');
+const CLIENTS = [
+  ['crouse.png', 'گروه صنعتی کروز'],
+  ['golrang.png', 'گروه گلرنگ'],
+  ['ezam.png', 'گروه صنعتی عظام'],
+  ['laziz.png', 'صنایع غذایی آماده لذیذ'],
+  [null, 'گروه صنعتی کلاریوبا']
+];
+const clientCards = () => CLIENTS.map(function (c, i) {
+  const f = c[0], name = c[1], d = ' rev rev-up d' + (i % 4);
+  return f
+    ? `<div class="client${d}"><img src="assets/img/clients/${f}" alt="${name}" loading="lazy" width="440" height="200"></div>`
+    : `<div class="client client-text${d}">${name}</div>`;
+}).join('');
 
 /* ---------- pages --------------------------------------------------------- */
 
@@ -203,20 +234,22 @@ pages['index.html'] = {
           <a class="btn btn-ghost" href="products.html">محصولات ما</a>
         </div>
         <div class="since">
-          <div><b>+۲۵ سال</b><span>سابقه تولید</span></div>
-          <div><b>۸ خانواده</b><span>محصول صنعتی</span></div>
+          <div><b><span class="count" data-count="25" data-prefix="+">۰</span> سال</b><span>سابقه تولید</span></div>
+          <div><b><span class="count" data-count="8">۰</span> خانواده</b><span>محصول صنعتی</span></div>
           <div><b>تمام‌اتومات</b><span>ماشین‌آلات ژاپنی</span></div>
         </div>
       </div>
       <figure class="hero-photo shot">
-        <img src="assets/img/hero-boxes.jpg" alt="کارتن‌های مقوایی چیده‌شده در انبار کارخانه" width="1100" height="1300">
+        <img src="assets/img/hero-boxes.jpg" alt="کارتن‌های مقوایی چیده‌شده در انبار کارخانه" width="1100" height="1300" data-parallax="18">
         <span class="plate"><b>۱۳۷۸</b>سال تأسیس</span>
       </figure>
     </div>
   </section>
 
+  ${CONVEYOR}
+
   <section class="wrap section">
-    <div class="head head-row rev">
+    <div class="head head-row rev rev-up">
       <div>
         <div class="eyebrow">محصولات ما</div>
         <h2>انواع جعبه، برای هر صنعت</h2>
@@ -225,6 +258,10 @@ pages['index.html'] = {
     </div>
     <div class="cats">${catCards()}</div>
   </section>
+
+  ${FOLD_SECTION}
+
+  ${PLY_SECTION}
 
   <section class="navy on-navy">
     <div class="wrap section">
@@ -255,28 +292,28 @@ pages['index.html'] = {
   </section>
 
   <section class="wrap section">
-    <div class="head rev">
+    <div class="head rev rev-up">
       <div class="eyebrow">خدمات</div>
       <h2>از قالب تا تحویل</h2>
       <p>کاری که بیشتر کارخانه‌ها به بیرون واگذار می‌کنند، اینجا زیر یک سقف انجام می‌شود.</p>
     </div>
     <div class="steps">
-      <div class="step rev">
+      <div class="step rev rev-up">
         <div class="t"><span class="n">۱</span><span class="ln"></span></div>
         <b>ساخت و طراحی قالب</b>
         <p>قالب اختصاصی برای ابعاد و شکل دقیق محصول شما.</p>
       </div>
-      <div class="step rev d1">
+      <div class="step rev rev-up d1">
         <div class="t"><span class="n">۲</span><span class="ln"></span></div>
         <b>ساخت و طراحی ماکت</b>
         <p>ماکت با همان متریالی که مد نظر شماست، پیش از تیراژ.</p>
       </div>
-      <div class="step rev d2">
+      <div class="step rev rev-up d2">
         <div class="t"><span class="n">۳</span><span class="ln"></span></div>
         <b>طراحی از صفر</b>
         <p>اگر طرح ندارید، گرافیک جعبه مطابق سلیقه شما آماده می‌شود.</p>
       </div>
-      <div class="step rev d3">
+      <div class="step rev rev-up d3">
         <div class="t"><span class="n">۴</span></div>
         <b>ارسال به سراسر کشور</b>
         <p>تحویل در محل، همراه با فاکتور رسمی.</p>
@@ -303,7 +340,7 @@ pages['index.html'] = {
 
   <section class="navy-deep navy on-navy">
     <div class="wrap section">
-      <div class="head rev">
+      <div class="head rev rev-up">
         <div class="eyebrow">مشتریان ما</div>
         <h2 style="color:#fff">برندهایی که با ما کار می‌کنند</h2>
       </div>
@@ -314,7 +351,7 @@ pages['index.html'] = {
   </section>
 
   <section class="wrap section">
-    <div class="head head-row rev">
+    <div class="head head-row rev rev-up">
       <div>
         <div class="eyebrow">تازه در کیاپک</div>
         <h2>فروشگاه تیراژ کم</h2>
@@ -332,7 +369,7 @@ pages['index.html'] = {
 
   <section style="background:var(--paper-2)">
     <div class="wrap section">
-      <div class="head rev">
+      <div class="head rev rev-up">
         <div class="eyebrow">سوال‌های پرتکرار</div>
         <h2>قبل از سفارش بدانید</h2>
       </div>
@@ -416,7 +453,7 @@ pages['products.html'] = {
   </section>
 
   <section class="wrap section">
-    <div class="head rev">
+    <div class="head rev rev-up">
       <div class="eyebrow">ماشین‌آلات و تجهیزات</div>
       <h2>خط تولید</h2>
     </div>
@@ -439,6 +476,8 @@ pages['products.html'] = {
       </div>
     </div>
   </section>
+
+  ${PLY_SECTION}
 
   <section style="background:var(--paper-2)">
     <div class="wrap section">
@@ -497,7 +536,7 @@ pages['about.html'] = {
 
   <section class="navy on-navy">
     <div class="wrap section">
-      <div class="head rev">
+      <div class="head rev rev-up">
         <div class="eyebrow">شناسنامه شرکت</div>
         <h2 style="color:#fff">اطلاعات ثبتی</h2>
       </div>
@@ -515,12 +554,20 @@ pages['about.html'] = {
   </section>
 
   <section class="wrap section">
-    <div class="head rev">
+    <div class="head rev rev-up">
+      <div class="eyebrow">مسیر ما</div>
+      <h2>از ۱۳۷۸ تا امروز</h2>
+    </div>
+    ${TIMELINE}
+  </section>
+
+  <section class="wrap section" style="padding-top:0">
+    <div class="head rev rev-up">
       <div class="eyebrow">مشتریان</div>
       <h2>برندهایی که با ما کار می‌کنند</h2>
     </div>
     <div class="clients">
-      ${clientCards(true)}
+      ${clientCards()}
     </div>
   </section>
 
@@ -687,7 +734,7 @@ pages['shop.html'] = {
   <div class="wrap" style="padding-bottom:50px">
     <div class="grid-products">
       ${SHOP.map(([n, m, p, img, badge], i) => `
-      <a class="card rev d${i % 4}" href="product.html">
+      <a class="card rev rev-up d${i % 4}" href="product.html">
         <span class="art">${badge ? `<span class="badge">${badge}</span>` : ''}${
         img ? `<img src="assets/img/${img}" alt="${n}" loading="lazy">` : BOXSVG}</span>
         <span class="body">
@@ -797,11 +844,78 @@ pages['product.html'] = {
 `
 };
 
+pages['login.html'] = {
+  title: 'ورود به حساب کاربری | کیاپک',
+  desc: 'ورود به حساب کاربری کیاپک با شماره موبایل و کد تأیید.',
+  active: 'login',
+  body: LOGIN_BODY
+};
+
+pages['signup.html'] = {
+  title: 'ثبت‌نام | کیاپک',
+  desc: 'ساخت حساب کاربری در کیاپک — حساب شرکتی یا شخصی، با شماره موبایل.',
+  active: 'login',
+  body: SIGNUP_BODY
+};
+
 /* ---------- write --------------------------------------------------------- */
 
 let n = 0;
+const LD = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'شرکت چاپ و بسته‌بندی کیا کارتن بسته‌نگار',
+  alternateName: 'کیاپک',
+  url: BASE,
+  logo: BASE + '/assets/favicon.svg',
+  foundingDate: '1999',
+  telephone: '+98-21-56901317',
+  sameAs: ['https://www.instagram.com/kiapack.co/'],
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'IR',
+    addressRegion: 'تهران',
+    streetAddress: 'شهرک صنعتی شمس‌آباد، بلوار استقلال، خیابان میخک ۸، پلاک ۴'
+  }
+});
+
 for (const [file, p] of Object.entries(pages)) {
-  fs.writeFileSync(file, head(p.title, p.desc) + header(p.active) + p.body + footer(p.active));
+  const ld = file === 'index.html'
+    ? String.fromCharCode(10) + '<script type="application/ld+json">' + LD + '</script>' : '';
+  fs.writeFileSync(file, head(p.title, p.desc, ld, file) + header(p.active) + p.body + footer(p.active));
   n++;
 }
-console.log(`built ${n} pages`);
+
+/* 404 */
+const NOT_FOUND = `
+<main id="main">
+  <section class="hero ribbon">
+    <div class="wrap" style="display:block;text-align:center;padding-top:70px;padding-bottom:80px">
+      <div class="eyebrow light" style="justify-content:center">خطای ۴۰۴</div>
+      <h1 style="font-size:40px">این صفحه پیدا نشد</h1>
+      <p class="lede" style="margin:16px auto 0">
+        ممکن است نشانی را اشتباه وارد کرده باشید یا صفحه جابه‌جا شده باشد.
+      </p>
+      <div class="cta" style="justify-content:center">
+        <a class="btn btn-gold" href="index.html">بازگشت به خانه</a>
+        <a class="btn btn-ghost" href="products.html">دیدن محصولات</a>
+      </div>
+    </div>
+  </section>
+</main>
+`;
+fs.writeFileSync('404.html', head('صفحه پیدا نشد | کیاپک', 'صفحه مورد نظر پیدا نشد.', '', '404.html') + header('') + NOT_FOUND + footer(''));
+n++;
+
+/* sitemap + robots */
+const urls = Object.keys(pages);
+const NLC = String.fromCharCode(10);
+fs.writeFileSync('sitemap.xml',
+  '<?xml version="1.0" encoding="UTF-8"?>' + NLC
+  + '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + NLC
+  + urls.map(u => '  <url><loc>' + BASE + '/' + u + '</loc><changefreq>monthly</changefreq></url>').join(NLC)
+  + NLC + '</urlset>' + NLC);
+fs.writeFileSync('robots.txt',
+  'User-agent: *' + NLC + 'Allow: /' + NLC + 'Sitemap: ' + BASE + '/sitemap.xml' + NLC);
+
+console.log('built ' + n + ' pages + 404, sitemap, robots');

@@ -386,7 +386,7 @@ body { background: var(--paper); color: var(--ink); }
 .band-kraft .btn-dark { background: var(--azure); color: var(--black); }
 .band-kraft .btn-dark:hover { background: var(--azure-press); color: var(--black); }
 
-.saffron-hero, .brand-hero { background: var(--black); color: #fff; }
+.industrial-hero, .brand-hero { background: var(--black); color: #fff; }
 .brand-hero h1 { color: #fff; letter-spacing: -0.02em; }
 .brand-hero p { color: #AEB9BF; }
 .brand-hero .btn-dark { background: var(--azure); color: var(--black); }
@@ -394,7 +394,7 @@ body { background: var(--paper); color: var(--ink); }
 .brand-hero .btn-outline:hover { background: rgba(255,255,255,.1); color: #fff; }
 .brand-visual { background: var(--panel); }
 .brand-visual .tag { color: #8D989E; }
-.saffron-hero h1 { letter-spacing: -0.02em; }
+.industrial-hero h1 { letter-spacing: -0.02em; }
 
 .callout { background: var(--paper-2); border: 1px solid var(--line); }
 .callout p { color: var(--ink-soft); }
@@ -499,3 +499,27 @@ body { padding-bottom: 68px; }
 
 /* Breathing room between the badge row and the buttons under it */
 .hero-v3 .hero-badges { gap: 9px; margin-top: 24px; }
+
+/* ---------- Photo slots -------------------------------------------------
+   We do not have this company's product photography. These marked slots show
+   exactly where real photos belong — never a stand-in image of someone else's
+   product. Replace each with a real photograph before this goes anywhere. */
+.photo-slot {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: repeating-linear-gradient(115deg, #EDF2F5 0 10px, #F6F9FB 10px 20px);
+  border: 1px dashed var(--line-strong);
+  color: var(--muted); font-size: 12.5px; font-weight: 700;
+  padding: 14px; line-height: 1.8;
+}
+.hero-collage .photo-slot { min-height: 250px; }
+.hero-collage .short .photo-slot { min-height: 118px; }
+.showcase-item .photo-slot, .family .photo-slot { height: 150px; }
+@media (min-width: 700px) {
+  .showcase-item .photo-slot, .family .photo-slot { height: 180px; }
+  .hero-collage .short .photo-slot { min-height: 150px; }
+}
+@media (min-width: 1000px) {
+  .hero-collage .tall .photo-slot { min-height: 396px; }
+  .hero-collage .short .photo-slot { min-height: 190px; }
+  .showcase-item .photo-slot, .family .photo-slot { height: 230px; }
+}

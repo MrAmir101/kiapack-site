@@ -1,8 +1,9 @@
 # Kiapack — website concept / نمونهٔ طراحی سایت کیاپک
 
-A responsive, Persian (RTL) website concept for **Kiapack (کیاپک)** — a saffron and spice
-packaging manufacturer in Khorasan Razavi, Iran — covering their existing B2B business and a
-proposed direct-to-consumer shop for small-quantity paper packaging.
+A responsive, Persian (RTL) website concept for **Kiapack — کیا کارتن بسته‌نگار**
+([@kiapack.co](https://www.instagram.com/kiapack.co/)), a box and carton manufacturer in the
+Shams Abad industrial estate, Iran. It covers their existing B2B business — جعبه مقوایی،
+جعبه لمینتی، کارتن ساده — and a proposed direct-to-consumer shop for small-quantity packaging.
 
 **This is an unofficial design concept, not the company's live website.**
 
@@ -34,7 +35,7 @@ reseller. It's interactive — try it.
 | `index.html` | Home — the two audiences (retail shop / custom production) split above the fold |
 | `shop.html` | Product listing with RTL filter sidebar, 12 products |
 | `product.html` | Product detail with a **working configurator** — size, finish and quantity drive a live drawing and live pricing |
-| `saffron.html` | The existing B2B business — product families, capabilities, quote request |
+| `cartons.html` | The existing B2B business — جعبه و کارتن صنعتی, capabilities, quote request |
 | `custom.html` | Custom branding — what can be printed, the order path, quote request |
 
 ## Design decisions
@@ -50,7 +51,7 @@ of the logo file rather than chosen:
 | Near-black | `#090C0A` | sampled; the dominant ground |
 | White | `#FFFFFF` | page surface |
 | Cool grey | `#F4F8FA` | secondary surface |
-| Saffron gold | `#C9A227` | reserved for the saffron/export pages only |
+| Amber | `#C9A227` | reserved for the industrial B2B page only |
 
 Three motifs carry that identity through the site:
 
@@ -77,9 +78,15 @@ argument for buying from a factory, made tangible instead of written in a paragr
 
 ## What is real and what is not
 
-**Real** — taken from the company's public Instagram [@kiapackco](https://www.instagram.com/kiapackco/):
-the logo, the phone number, the four saffron product photographs (cropped to remove watermarks),
-and the product vocabulary (پاکت، جعبه آذین، جعبه صادراتی، استند، جعبه مادر).
+**Real** — taken from the company's public Instagram
+[@kiapack.co](https://www.instagram.com/kiapack.co/): the trading name (کیا کارتن بسته‌نگار),
+the location (شهرک صنعتی شمس‌آباد), and the product vocabulary
+(جعبه مقوایی، جعبه لمینتی، کارتن ساده).
+
+> **Correction.** An earlier revision of this repo was built against
+> `@kiapackco` — a *different* company (saffron packaging, Khorasan) that was guessed
+> from the domain name. Its logo, phone number and product photographs were used by
+> mistake and have all been removed. Do not restore them from git history.
 
 **Sample values — replace before any real use:**
 
@@ -87,9 +94,25 @@ and the product vocabulary (پاکت، جعبه آذین، جعبه صادرات
 - Product counts, dimensions, grammage, lead times, minimum quantities
 - The retail products themselves — cups, carriers, bags, boxes are **drawn illustrations**,
   because that product line does not exist yet and there is nothing to photograph
+- **Every photograph.** There is no product photography in this repo at all. Each place a
+  photo belongs is a marked `[عکس محصول]` slot — see "What is still needed" below
 
-**Marked placeholders** left visible in the markup: `[آدرس کارخانه]`, `[لوگوی مشتری]`, and the
-trust-badge slots (نماد اعتماد / ساماندهی).
+**Marked placeholders** left visible in the markup: `[شماره تماس]`,
+`[آدرس دقیق کارخانه]`, `[عکس محصول]` (11 slots), `[لوگوی مشتری]`, and the trust-badge
+slots (نماد اعتماد / ساماندهی).
+
+## What is still needed from the company
+
+The design system is finished; these are content gaps only:
+
+1. **The logo file** — ideally vector. The mark currently in the header is a plain
+   placeholder carton glyph, deliberately generic. Nothing here should ship with it.
+2. **Product photography** — 11 marked slots. This is the single biggest gap: the
+   reference site the client rated highest (tarheaval.com) is strong mainly because
+   every product is a real 1024px photograph.
+3. **Phone number and full factory address**
+4. **Real prices** for at least one product line
+5. **Client logos**, if any may be shown
 
 **Not built** (a concept, not a shop): cart, checkout, payment gateway, accounts, CMS, search.
 Forms are styled but do not submit anywhere.
